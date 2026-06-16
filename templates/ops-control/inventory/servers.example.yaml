@@ -1,0 +1,52 @@
+# Rename to servers.yaml and fill in.
+# Do not store credentials or secrets.
+
+servers:
+  - id: srv1
+    hostname: srv1.example.local
+    ssh_alias: srv1
+    role: "<e.g., docker host / reverse proxy / app server>"
+    environment: home-prod
+    os_family: debian
+    critical_services:
+      - name: ssh
+        health_check: "ssh srv1 uptime"
+      - name: "<service>"
+        health_check: "<read-only check>"
+    backup:
+      method: "<restic / borg / snapshot / provider backup>"
+      location_reference: "<no secrets>"
+      restore_runbook: "runbooks/backup-restore.md"
+    maintenance_window: "<day/time/timezone>"
+    reboot_policy: "manual approval required"
+    notes: ""
+
+  - id: srv2
+    hostname: srv2.example.local
+    ssh_alias: srv2
+    role: ""
+    environment: home-prod
+    os_family: debian
+    critical_services: []
+    backup:
+      method: ""
+      location_reference: ""
+      restore_runbook: "runbooks/backup-restore.md"
+    maintenance_window: ""
+    reboot_policy: "manual approval required"
+    notes: ""
+
+  - id: srv3
+    hostname: srv3.example.local
+    ssh_alias: srv3
+    role: ""
+    environment: home-prod
+    os_family: debian
+    critical_services: []
+    backup:
+      method: ""
+      location_reference: ""
+      restore_runbook: "runbooks/backup-restore.md"
+    maintenance_window: ""
+    reboot_policy: "manual approval required"
+    notes: ""

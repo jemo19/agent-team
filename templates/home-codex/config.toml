@@ -1,0 +1,18 @@
+# Personal Codex config for local agentic production team.
+# Review against your installed Codex version before replacing an existing file.
+
+model = "gpt-5.5"
+model_reasoning_effort = "xhigh"
+sandbox_mode = "workspace-write"
+approval_policy = "on-request"
+
+[agents]
+max_threads = 6
+max_depth = 1
+job_max_runtime_seconds = 1800
+
+[sandbox_workspace_write]
+network_access = false
+
+[features]
+hooks = true

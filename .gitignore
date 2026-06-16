@@ -1,0 +1,10 @@
+build-evidence/
+.tmp/
+.codex-log/
+private/
+*.private.md
+*.private.yaml
+*.log
+*.tmp
+__pycache__/
+*.pyc

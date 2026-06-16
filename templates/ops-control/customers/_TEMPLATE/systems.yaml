@@ -1,0 +1,15 @@
+# Customer systems inventory. Do not store secrets.
+
+systems:
+  - id: primary-server
+    type: linux-server
+    hostname: ""
+    ssh_alias: ""
+    environment: production
+    managed: true
+    criticality: medium
+    services: []
+    backup:
+      method: ""
+      restore_runbook: ""
+    notes: ""

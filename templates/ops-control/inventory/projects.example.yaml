@@ -1,0 +1,34 @@
+# Rename to projects.yaml and fill in with local/private values.
+# This file maps code roots, docs roots, and operational roles.
+# Do not store secrets, customer data, private tokens, or credential references.
+
+projects:
+  - id: example-web-app
+    name: Example Web App
+    code_root: "/home/<user>/projects/example-web-app"
+    docs_root: "/home/<user>/docs/example-web-app"
+    github: "<owner>/<repo>"
+    role: "web application"
+    workflow: "web-project"
+    visibility: "public-or-private"
+    notes: "Replace with local details in a private inventory file."
+
+  - id: example-app-host
+    name: Example App Host
+    code_root: "/home/<user>/projects/example-app-host"
+    docs_root: "/home/<user>/docs/example-app-host"
+    github: "<owner>/<repo>"
+    role: "Linux host operations and deployment contracts"
+    workflow: "infra-iac"
+    visibility: "private"
+    notes: "Keep exact hostnames, IPs, and credential references out of public docs."
+
+  - id: example-customer-tooling
+    name: Example Customer Tooling
+    code_root: "/home/<user>/projects/example-customer-tooling"
+    docs_root: "/home/<user>/docs/example-customer-tooling"
+    github: "<owner>/<repo>"
+    role: "MSP/customer workflow automation"
+    workflow: "msp-ticket-ops"
+    visibility: "private"
+    notes: "Use synthetic examples in public repos; keep real customer data private."

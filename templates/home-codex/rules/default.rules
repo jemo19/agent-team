@@ -1,0 +1,107 @@
+# Codex command rules for local production team.
+# Rules apply to commands Codex wants to run outside the sandbox.
+# They are guardrails, not a complete security boundary.
+
+prefix_rule(
+    pattern = ["sudo"],
+    decision = "prompt",
+    justification = "Privileged commands require explicit human review.",
+    match = ["sudo systemctl status nginx", "sudo apt update"],
+)
+
+prefix_rule(
+    pattern = ["ssh"],
+    decision = "prompt",
+    justification = "Remote commands require approval and an evidence plan.",
+    match = ["ssh srv1 uptime", "ssh customer-host hostnamectl"],
+)
+
+prefix_rule(
+    pattern = ["scp"],
+    decision = "prompt",
+    justification = "Remote file copy may alter systems or expose data.",
+    match = ["scp file srv1:/tmp/file"],
+)
+
+prefix_rule(
+    pattern = ["rsync"],
+    decision = "prompt",
+    justification = "Rsync can overwrite or delete data and needs review.",
+    match = ["rsync -av ./ srv1:/opt/app/"],
+)
+
+prefix_rule(
+    pattern = ["rm", "-rf"],
+    decision = "prompt",
+    justification = "Recursive deletion requires human review.",
+    match = ["rm -rf build"],
+)
+
+prefix_rule(
+    pattern = [["mkfs", "mkfs.ext4", "mkfs.xfs", "mkfs.btrfs", "mkswap"]],
+    decision = "forbidden",
+    justification = "Filesystem creation/destruction must not be run by Codex. Prepare a manual runbook instead.",
+    match = ["mkfs.ext4 /dev/sdb1", "mkswap /dev/sdb2"],
+)
+
+prefix_rule(
+    pattern = ["dd"],
+    decision = "prompt",
+    justification = "dd can destroy data. Require exact manual review.",
+    match = ["dd if=image.iso of=/dev/sdb bs=4M"],
+)
+
+prefix_rule(
+    pattern = ["reboot"],
+    decision = "prompt",
+    justification = "Reboots require approval and service impact review.",
+    match = ["reboot"],
+)
+
+prefix_rule(
+    pattern = ["shutdown"],
+    decision = "prompt",
+    justification = "Shutdown requires explicit approval.",
+    match = ["shutdown -r now"],
+)
+
+prefix_rule(
+    pattern = ["systemctl", ["restart", "stop", "disable", "enable"]],
+    decision = "prompt",
+    justification = "Service state changes require approval.",
+    match = ["systemctl restart nginx", "systemctl stop docker"],
+)
+
+prefix_rule(
+    pattern = ["apt", ["upgrade", "dist-upgrade", "full-upgrade", "remove", "purge", "install"]],
+    decision = "prompt",
+    justification = "Package changes require approval and rollback/verification plan.",
+    match = ["apt upgrade", "apt install nginx"],
+)
+
+prefix_rule(
+    pattern = ["docker", "compose", ["up", "down", "restart", "pull"]],
+    decision = "prompt",
+    justification = "Docker compose service changes require approval.",
+    match = ["docker compose up -d", "docker compose down"],
+)
+
+prefix_rule(
+    pattern = [["ufw", "iptables", "nft", "firewall-cmd"]],
+    decision = "prompt",
+    justification = "Firewall/network changes can lock out access or expose services.",
+    match = ["ufw allow 22", "iptables -L"],
+)
+
+prefix_rule(
+    pattern = [["terraform", "tofu"], ["apply", "destroy", "import", "state", "taint", "untaint"]],
+    decision = "prompt",
+    justification = "Infrastructure-as-code state-changing commands require reviewed plan, state/backups, rollback, and approval.",
+    match = [
+        "terraform apply",
+        "terraform destroy",
+        "terraform import aws_instance.example i-1234567890abcdef0",
+        "terraform state rm module.app",
+        "tofu apply",
+    ],
+)
