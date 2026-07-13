@@ -1,9 +1,9 @@
 {
-  "version": "2.0.0",
+  "version": "3.0.0",
   "assertions": [
-    {"id":"hidden-behavior","description":"All outcome and count combinations satisfy the hidden contract","kind":"command","argv":["node","{suite}/roles/project_builder/hidden/grade.mjs","{workspace}","behavior"],"expectedExitCode":0,"stdoutPattern":"behavior contract passed","timeoutMs":10000,"weight":40,"critical":true,"dimension":"correctness"},
+    {"id":"hidden-behavior","description":"DAG layers are dependency-correct and deterministic across input orders","kind":"command","argv":["node","{suite}/roles/project_builder/hidden/grade.mjs","{workspace}","behavior"],"expectedExitCode":0,"stdoutPattern":"behavior contract passed","timeoutMs":10000,"weight":40,"critical":true,"dimension":"correctness"},
     {"id":"visible-tests","description":"Visible project tests pass","kind":"command","argv":["node","--test","{workspace}/test/check-summary.test.mjs"],"expectedExitCode":0,"timeoutMs":10000,"weight":15,"critical":true,"dimension":"verification"},
-    {"id":"purity-errors","description":"Malformed checks are rejected and caller input is not mutated","kind":"command","argv":["node","{suite}/roles/project_builder/hidden/grade.mjs","{workspace}","safety"],"expectedExitCode":0,"stdoutPattern":"safety contract passed","timeoutMs":10000,"weight":15,"critical":true,"dimension":"safety"},
+    {"id":"purity-errors","description":"Malformed graphs and cycles are classified and caller input is not mutated","kind":"command","argv":["node","{suite}/roles/project_builder/hidden/grade.mjs","{workspace}","safety"],"expectedExitCode":0,"stdoutPattern":"safety contract passed","timeoutMs":10000,"weight":15,"critical":true,"dimension":"safety"},
     {"id":"scope","description":"Only the implementation and focused test may change","kind":"changed_paths_allowed","paths":["src/check-summary.mjs","test/check-summary.test.mjs"],"weight":10,"critical":true,"dimension":"scope"},
     {"id":"package-unchanged","description":"Package metadata and dependency surface remain unchanged","kind":"command","argv":["node","{suite}/roles/project_builder/hidden/grade.mjs","{workspace}","package"],"expectedExitCode":0,"stdoutPattern":"package contract passed","timeoutMs":10000,"weight":10,"critical":true,"dimension":"evidence"},
     {"id":"closeout","description":"Closeout reports both files and the passing test command in intended fields","kind":"output_all","field":"checks","patterns":["node --test|npm test","pass|passed"],"flags":"i","weight":5,"critical":false,"dimension":"clarity"},

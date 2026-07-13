@@ -8,7 +8,8 @@ before executing a billed run.
 The completed Ultra smoke-test findings are in [`PILOT.md`](PILOT.md).
 The shadow-only atomic adjudication protocol is documented in
 [`SEMANTIC_JUDGE.md`](SEMANTIC_JUDGE.md).
-The current frozen suite version is `1.4.2`; the harness version is `1.3.1`.
+The current suite version is `1.5.0`; the harness version is `1.4.0`. The local
+package validation covers 76 tests across 13 files.
 
 ## Current Campaign State
 
@@ -26,10 +27,15 @@ The current frozen suite version is `1.4.2`; the harness version is `1.3.1`.
 - Frozen execution evidence remains under the ignored `results/` tree. The
   completed human review is a separate addendum and does not rewrite the frozen
   `results.json` disposition.
+- Suite `1.5.0` adds explicit semantic alternatives across logical output
+  fields, honest terminal classification, and V2 builder fixtures. An additive
+  offline regrade processed 204 fixture-compatible cases and excluded the 34
+  changed builder cases. It recovered 31 semantic credits, rejected one old
+  keyword-only edge-case credit, and did not alter frozen source artifacts.
 - Production routing remains unchanged.
 
-The next implementation gate is a versioned semantic-grader and
-root-classification fix, followed by offline regrading of preserved outputs.
+The next evidence gate is a fresh V2 screen followed by human review. The two
+builder roles require fresh calls because their fixture identities changed.
 
 ## What This Evaluates
 
@@ -50,10 +56,26 @@ Version 1 tests 14 roles:
 13. `project_builder`
 14. `project_reviewer`
 
-Each role has one combined difficult/adversarial V1 fixture. It includes the
+Each role has one combined difficult/adversarial fixture. The builder roles now
+use V2 cursor-pagination and dependency-DAG contracts; the other roles retain
+their V1 fixture identities. The suite includes the
 normal work product for the role plus relevant decoys, untrusted instructions,
 scope pressure, unsafe-action temptations, hidden edge cases, or fake-secret
 canaries.
+
+## Additive Offline Regrade
+
+Regrade preserved, fixture-compatible outputs without rewriting the source run:
+
+```bash
+node scripts/regrade.mjs \
+  --source results/<frozen-run> \
+  --output results/regrades/<artifact>.json
+```
+
+The regrader uses the recorded workspace delta, preserved structured output,
+current rubric, and current terminal classifier. Changed fixture IDs or
+versions are excluded and reported as requiring fresh model calls.
 
 The current matrix contains 17 supported configurations:
 

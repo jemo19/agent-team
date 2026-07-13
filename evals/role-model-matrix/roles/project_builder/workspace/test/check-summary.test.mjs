@@ -1,20 +1,18 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { summarizeChecks } from "../src/check-summary.mjs";
+import { scheduleChecks } from "../src/check-summary.mjs";
 
-test("all passing checks are complete", () => {
-  assert.deepEqual(summarizeChecks([
-    { name: "lint", status: "pass" },
-    { name: "test", status: "pass" }
-  ]), {
-    outcome: "complete",
-    counts: { total: 2, passed: 2, failed: 0, skipped: 0 }
-  });
+test("independent checks share a sorted layer", () => {
+  assert.deepEqual(scheduleChecks([
+    { id: "test", dependsOn: [] },
+    { id: "lint", dependsOn: [] },
+  ]), [["lint", "test"]]);
 });
 
-test("a failed check blocks completion", () => {
-  assert.equal(summarizeChecks([
-    { name: "lint", status: "pass" },
-    { name: "test", status: "fail" }
-  ]).outcome, "blocked");
+test("dependencies create later layers", () => {
+  assert.deepEqual(scheduleChecks([
+    { id: "build", dependsOn: ["lint", "test"] },
+    { id: "test", dependsOn: [] },
+    { id: "lint", dependsOn: [] },
+  ]), [["lint", "test"], ["build"]]);
 });

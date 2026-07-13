@@ -1,4 +1,5 @@
-export function parsePageSize(raw) {
-  if (raw == null || raw === "") return 25;
-  return Math.min(100, parseInt(raw, 10)) || 25;
+export function paginateRecords(records, options = {}) {
+  const limit = Number.parseInt(options.limit ?? "25", 10);
+  const items = records.slice(0, limit);
+  return { items, nextCursor: null };
 }

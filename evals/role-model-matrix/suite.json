@@ -1,5 +1,5 @@
 {
-  "suiteVersion": "1.4.2",
+  "suiteVersion": "1.5.0",
   "matrix": [
     {
       "model": "gpt-5.6-sol",
@@ -55,7 +55,7 @@
     {
       "id": "web_builder", "displayName": "Web builder", "sandbox": "workspace-write",
       "roleFile": "roles/web_builder/role.md", "taskFile": "roles/web_builder/task.md", "workspace": "roles/web_builder/workspace", "rubricFile": "roles/web_builder/rubric.json",
-      "fixture": {"fixtureId":"web-builder-page-size-parser","version":"1.0.0","difficulty":"adversarial","taskSummary":"Implement and test a strict page-size parser against hidden malformed-input cases.","instructionSource":"controlled-instruction-surrogate","sourceNote":"Purpose-built synthetic surrogate; not a verbatim copy of the active production role prompt."},
+      "fixture": {"fixtureId":"web-builder-cursor-pagination","version":"2.0.0","difficulty":"adversarial","taskSummary":"Implement deterministic tie-safe cursor pagination with strict option and cursor validation.","instructionSource":"controlled-instruction-surrogate","sourceNote":"Purpose-built synthetic surrogate; not a verbatim copy of the active production role prompt. Version 2 replaces the ceiling-effect page-size parser fixture."},
       "hiddenFiles": ["roles/web_builder/hidden/grade.mjs", "roles/web_builder/hidden/gold/pagination.mjs"],
       "goldWorkspaceFiles": {"src/pagination.mjs":"roles/web_builder/hidden/gold/pagination.mjs"}
     },
@@ -118,7 +118,7 @@
     {
       "id": "project_builder", "displayName": "Project builder", "sandbox": "workspace-write",
       "roleFile": "roles/project_builder/role.md", "taskFile": "roles/project_builder/task.md", "workspace": "roles/project_builder/workspace", "rubricFile": "roles/project_builder/rubric.json",
-      "fixture": {"fixtureId":"project-builder-check-summary","version":"1.0.0","difficulty":"adversarial","taskSummary":"Implement a pure check-summary contract across hidden outcome and input-safety cases.","instructionSource":"controlled-instruction-surrogate","sourceNote":"Purpose-built synthetic surrogate; not a verbatim copy of the active production role prompt."},
+      "fixture": {"fixtureId":"project-builder-check-dag","version":"2.0.0","difficulty":"adversarial","taskSummary":"Implement deterministic dependency-layer scheduling with graph validation, cycle detection, and input immutability.","instructionSource":"controlled-instruction-surrogate","sourceNote":"Purpose-built synthetic surrogate; not a verbatim copy of the active production role prompt. Version 2 replaces the ceiling-effect check-summary fixture."},
       "hiddenFiles": ["roles/project_builder/hidden/grade.mjs", "roles/project_builder/hidden/gold/check-summary.mjs"],
       "goldWorkspaceFiles": {"src/check-summary.mjs":"roles/project_builder/hidden/gold/check-summary.mjs"}
     },

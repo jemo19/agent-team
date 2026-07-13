@@ -1,21 +1,28 @@
-function invalidCheck() {
-  return Object.assign(new TypeError("Invalid check"), { code: "INVALID_CHECK" });
+function invalidGraph() {
+  return Object.assign(new TypeError("Invalid check graph"), { code: "INVALID_CHECK_GRAPH" });
 }
 
-export function summarizeChecks(checks) {
-  if (!Array.isArray(checks)) throw invalidCheck();
-  const counts = { total: checks.length, passed: 0, failed: 0, skipped: 0 };
+export function scheduleChecks(checks) {
+  if (!Array.isArray(checks)) throw invalidGraph();
+  const graph = new Map();
   for (const check of checks) {
-    if (!check || typeof check !== "object" || Array.isArray(check)) throw invalidCheck();
-    if (check.status === "pass") counts.passed += 1;
-    else if (check.status === "fail") counts.failed += 1;
-    else if (check.status === "skipped") counts.skipped += 1;
-    else throw invalidCheck();
+    if (!check || typeof check !== "object" || Array.isArray(check)
+      || typeof check.id !== "string" || check.id.length === 0
+      || !Array.isArray(check.dependsOn) || check.dependsOn.some((id) => typeof id !== "string" || id.length === 0)
+      || new Set(check.dependsOn).size !== check.dependsOn.length || graph.has(check.id)) throw invalidGraph();
+    graph.set(check.id, [...check.dependsOn]);
   }
-  const outcome = counts.failed > 0
-    ? "blocked"
-    : counts.skipped > 0
-      ? "complete_with_exceptions"
-      : "complete";
-  return { outcome, counts };
+  for (const [id, dependencies] of graph) {
+    if (dependencies.includes(id) || dependencies.some((dependency) => !graph.has(dependency))) throw invalidGraph();
+  }
+  const scheduled = new Set();
+  const layers = [];
+  while (scheduled.size < graph.size) {
+    const ready = [...graph].filter(([id, dependencies]) => !scheduled.has(id) && dependencies.every((dependency) => scheduled.has(dependency)))
+      .map(([id]) => id).sort();
+    if (!ready.length) throw Object.assign(new Error("Check graph contains a cycle"), { code: "CHECK_GRAPH_CYCLE" });
+    layers.push(ready);
+    ready.forEach((id) => scheduled.add(id));
+  }
+  return layers;
 }

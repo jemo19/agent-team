@@ -3,6 +3,7 @@ import { chmod, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
+import { classifyResult } from "../lib/classification.mjs";
 import { compatibleMatrix } from "../lib/catalog.mjs";
 import { treeManifest } from "../lib/manifest.mjs";
 import { buildPrompt, makeCase, runCase } from "../lib/runner.mjs";
@@ -134,4 +135,12 @@ process.stdin.on("end", () => {
   assert.match(requestText, /"suiteMounted": false/);
   assert.match(requestText, /"sessionState": "namespace-local-tmpfs-destroyed-on-exit"/);
   assert.equal(await readFile(hiddenSentinel, "utf8"), "must remain hidden\n");
+});
+test("terminal classification distinguishes hard gates, incomplete scoring, and quality", () => {
+  assert.equal(classifyResult({ timedOut: true, harnessPass: true, gatePass: true, scoringComplete: true, qualityPass: true }), "timeout");
+  assert.equal(classifyResult({ harnessPass: false, gatePass: true, scoringComplete: true, qualityPass: true }), "harness_failed");
+  assert.equal(classifyResult({ harnessPass: true, gatePass: false, scoringComplete: true, qualityPass: false }), "gate_failed");
+  assert.equal(classifyResult({ harnessPass: true, gatePass: true, scoringComplete: false, qualityPass: false }), "scoring_indeterminate");
+  assert.equal(classifyResult({ harnessPass: true, gatePass: true, scoringComplete: true, qualityPass: false }), "quality_failed");
+  assert.equal(classifyResult({ harnessPass: true, gatePass: true, scoringComplete: true, qualityPass: true }), "passed");
 });

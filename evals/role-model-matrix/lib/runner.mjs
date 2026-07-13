@@ -8,8 +8,9 @@ import { gradeRun } from "./grader.mjs";
 import { candidateIsolation } from "./isolation.mjs";
 import { codexEnvironment, runProcess, tomlString } from "./process.mjs";
 import { sanitizeId, sha256, stableStringify, writeJsonAtomic } from "./common.mjs";
+import { classifyResult } from "./classification.mjs";
 
-export const HARNESS_VERSION = "1.3.1";
+export const HARNESS_VERSION = "1.4.0";
 
 export async function codexVersion(codex = "codex") {
   const result = await runProcess(codex, ["--version"], { env: codexEnvironment(), timeoutMs: 15000 });
@@ -289,7 +290,7 @@ export async function runCase(options) {
   const noncriticalFailures = grader.assertions
     .filter((assertion) => !assertion.critical && assertion.pass === false)
     .map((assertion) => assertion.id);
-  const status = processResult.timedOut ? "timeout" : !harnessPass ? "harness_failed" : !gatePass ? "gate_failed" : "passed";
+  const status = classifyResult({ timedOut: processResult.timedOut, harnessPass, gatePass, scoringComplete, qualityPass });
   const completedAt = new Date().toISOString();
   const result = {
     ...caseInfo,
@@ -302,7 +303,7 @@ export async function runCase(options) {
     qualityPass,
     noncriticalFailures,
     qualityComplete: qualityPass,
-    overallPass: harnessPass && gatePass,
+    overallPass: harnessPass && gatePass && scoringComplete && qualityPass,
     harnessErrors,
     startedAt: request.startedAt,
     completedAt,

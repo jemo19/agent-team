@@ -38,7 +38,7 @@ GOAL -> PLAN -> INVOKE SUBAGENTS -> EXECUTE -> CHECK -> REVIEW -> HUMAN GATE -> 
   reviewable 14-role, 17-configuration benchmark. Static validation and dry
   runs are non-billed; raw traces stay ignored; routing changes require a
   separate human gate after repeat and trace review.
-- The benchmark is at suite `1.4.2`, harness `1.3.1`, with 69 tests across 12
+- The benchmark is at suite `1.5.0`, harness `1.4.0`, with 76 tests across 13
   files. It retains the Sol Ultra isolation-pilot lessons: empty wait calls are
   not proof of delegation, missing child identity produces an honest score
   interval, and model-generated shell commands run in a probed nested
@@ -54,6 +54,12 @@ GOAL -> PLAN -> INVOKE SUBAGENTS -> EXECUTE -> CHECK -> REVIEW -> HUMAN GATE -> 
 - The July 12 internal screen completed all 238 cells. Human review invalidated
   headline rankings because of lexical/field-placement false negatives and a
   root-orchestration classification anomaly. Production routing is unchanged.
+- The versioned fix is implemented: semantic concepts accept explicit
+  paraphrases across logical fields, terminal status now distinguishes gate,
+  incomplete scoring, and quality failures, and both builder fixtures are V2.
+  The additive regrade processed 204 compatible cases, excluded 34 changed
+  builder cases, recovered 31 semantic credits, and rejected one old
+  keyword-only credit. Frozen results were not rewritten.
 - The separate Terminal-Bench 2 public lane completed 85 scored cells across
   all 17 configurations and five pinned tasks. Sol/xhigh and Terra/ultra each
   scored 4/5, with wide overlapping intervals. Treat this as a small public
@@ -149,10 +155,9 @@ Project-local templates:
 
 ## Evaluation Campaign Next Actions
 
-1. Version the internal suite/harness fixes for semantic assertion brittleness
-   and root-orchestration terminal classification.
-2. Offline-regrade the preserved 238-cell screen without rewriting frozen raw
-   evidence, then independently review the new grader.
+1. Independently review the suite `1.5.0` grader and V2 builder contracts.
+2. Run a fresh 238-cell V2 screen only after a separate usage approval, then
+   complete human review before any ranking or routing decision.
 3. For the public lane, freeze and oracle-validate a stratified ten-task cohort
    before any larger campaign or general model claim.
 

@@ -12,19 +12,23 @@ The first implementation lives under
 ignored. A human-reviewed, sanitized summary may be promoted into the durable
 documentation later.
 
-The current frozen implementation is suite `1.4.2` with harness `1.3.1`. It
+The current prepared implementation is suite `1.5.0` with harness `1.4.0` and
+76 deterministic tests across 13 files. The last fully executed internal
+screen remains frozen at suite `1.4.2` / harness `1.3.1`. The prepared suite
 includes the telemetry and score-interval hardening discovered by the July 2026
 Ultra pilot, the nested candidate-command credential boundary, frozen-preflight
-gate, quote-aware command policy, recovered-transport classification, and 69
-deterministic tests across 12 files.
+gate, quote-aware command policy, recovered-transport classification, semantic
+concept alternatives, honest terminal classification, and harder V2 builders.
 
 Calibration is complete. The v6 run executed all 14 installed controls. Human
 semantic review found 13 passes and one supported `customer_comms` failure;
-offline replay of the preserved evidence under the current suite/harness yields
+offline replay of the preserved evidence under its reviewed suite/harness yields
 the same 13/1 disposition. The July 12 semantic pilot and 238-cell screen also
 completed. The pilot failed its shadow gate, while screen review found grader
 brittleness and a root-orchestration classification anomaly. Production routing
-is unchanged.
+is unchanged. An additive suite-1.5.0 regrade covers the 204 compatible screen
+cases and excludes the 34 changed builder cases without rewriting frozen
+artifacts; a fresh V2 screen is required before ranking.
 
 ## Objective
 

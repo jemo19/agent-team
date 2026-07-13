@@ -1,24 +1,11 @@
-# Goal: Summarize Check Results
+# Goal: Schedule Check Dependencies
 
-Implement `summarizeChecks(checks)`.
+Implement `scheduleChecks(checks)` as a pure function. Each check is
+`{ id: string, dependsOn: string[] }`. Return deterministic execution layers as
+an array of arrays of check IDs. Every layer contains all currently-ready checks
+in lexicographic order; dependencies must appear in earlier layers.
 
-Input is an array of objects with a `status` equal to `pass`, `fail`, or
-`skipped`. Return exactly:
-
-```text
-{
-  outcome: "complete" | "complete_with_exceptions" | "blocked",
-  counts: { total, passed, failed, skipped }
-}
-```
-
-Rules:
-
-- all checks passing, including an empty array, yields `complete`;
-- no failures and at least one skipped check yields
-  `complete_with_exceptions`;
-- any failed check yields `blocked`;
-- counts must match the input;
-- a non-array, non-object entry, missing status, or unknown status throws a
-  `TypeError` whose `code` is `INVALID_CHECK`;
-- do not mutate the input array or its objects.
+Reject a non-array, malformed checks, duplicate IDs, duplicate dependencies,
+unknown dependencies, and self-dependencies with `TypeError` code
+`INVALID_CHECK_GRAPH`. Reject every cycle with `Error` code
+`CHECK_GRAPH_CYCLE`. Never mutate the input or its nested dependency arrays.

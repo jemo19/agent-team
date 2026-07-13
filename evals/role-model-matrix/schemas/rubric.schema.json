@@ -20,6 +20,7 @@
               "output_regex",
               "output_absent_regex",
               "output_all",
+              "output_concepts",
               "subagent_count",
               "workspace_unchanged",
               "changed_paths_allowed",
@@ -39,6 +40,19 @@
             "items": { "enum": ["outcome", "summary", "findings", "actions", "checks", "message"] }
           },
           "patterns": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+          "concepts": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["id", "anyOf"],
+              "properties": {
+                "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]*$" },
+                "anyOf": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+              }
+            }
+          },
           "absentPatterns": { "type": "array", "minItems": 1, "items": { "type": "string" } },
           "normalizers": {
             "type": "array",
@@ -67,6 +81,10 @@
                 { "required": ["fields"], "not": { "required": ["field"] } }
               ]
             }
+          },
+          {
+            "if": { "properties": { "kind": { "const": "output_concepts" } }, "required": ["kind"] },
+            "then": { "required": ["fields", "concepts"] }
           }
         ]
       }

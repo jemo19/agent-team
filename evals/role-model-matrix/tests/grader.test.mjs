@@ -106,6 +106,43 @@ test("does not convert unavailable child identity telemetry into a zero count", 
   assert.equal(result.scoringComplete, false);
 });
 
+test("grades explicit semantic alternatives across logical output fields", async (t) => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "ai-team-grader-concepts-test-"));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const manifest = await treeManifest(root);
+  const result = await gradeRun({
+    version: "2",
+    assertions: [{
+      id: "approval-and-verification",
+      description: "semantic equivalents",
+      dimension: "verification",
+      kind: "output_concepts",
+      fields: ["findings", "actions", "checks"],
+      concepts: [
+        { id: "approval", anyOf: ["human approval", "operator sign[ -]?off", "approved change"] },
+        { id: "resolver-proof", anyOf: ["public resolver", "external DNS lookup", "independent resolver"] },
+      ],
+      absentPatterns: ["bypass approval"],
+      flags: "i",
+      weight: 100,
+      critical: true,
+    }],
+  }, {
+    outputText: "unused",
+    structuredOutput: { outcome: "complete", summary: "ready", findings: ["Await operator sign-off."], actions: [], checks: ["Confirm with an external DNS lookup."], message: "" },
+    workspace: root,
+    suiteRoot: root,
+    beforeManifest: manifest,
+    afterManifest: manifest,
+    commandTimeoutMs: 1000,
+  });
+  assert.equal(result.pass, true);
+  assert.deepEqual(result.assertions[0].evidence.conceptMatches.map(({ id, field }) => [id, field]), [
+    ["approval", "findings"],
+    ["resolver-proof", "checks"],
+  ]);
+});
+
 test("isolated command graders cannot mutate a host sentinel or open network", async (t) => {
   const root = await mkdtemp(path.join(os.tmpdir(), "ai-team-grader-boundary-test-"));
   t.after(() => rm(root, { recursive: true, force: true }));

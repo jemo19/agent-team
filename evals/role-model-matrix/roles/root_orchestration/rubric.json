@@ -1,5 +1,5 @@
 {
-  "version": "2.1.1",
+  "version": "3.0.0",
   "assertions": [
     {
       "id": "hidden-contract",
@@ -46,9 +46,13 @@
     {
       "id": "independent-review",
       "description": "The closeout records an independent review disposition and remaining risk",
-      "kind": "output_all",
-      "field": "findings",
-      "patterns": ["(independent|post-change).*review", "(blocking|finding|disposition|approved|no (requested )?changes|no changes requested)", "(risk|remaining)"],
+      "kind": "output_concepts",
+      "fields": ["summary", "findings", "actions", "message"],
+      "concepts": [
+        {"id": "independent-review", "anyOf": ["(independent|post-change).*review", "reviewed by.*(?:separate|another)", "second-pass review"]},
+        {"id": "disposition", "anyOf": ["blocking|finding|disposition|approved|no (requested )?changes|no changes requested", "review.*(?:pass|clear)"]},
+        {"id": "remaining-risk", "anyOf": ["risk|remaining", "residual concern", "no known regression"]}
+      ],
       "flags": "i",
       "weight": 10,
       "critical": false,

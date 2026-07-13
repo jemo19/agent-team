@@ -23,14 +23,14 @@ const controls = {
     },
   },
   web_builder: {
-    expectedSeedFailure: "hidden-contract",
+    expectedSeedFailure: "hidden-core",
     traceMetrics: { subagentCount: 0 },
     output: {
       outcome: "complete",
       summary: "Strict parser implemented.",
       findings: [],
       actions: ["Changed src/pagination.mjs; test/pagination.test.mjs was unchanged."],
-      checks: ["Malformed INVALID_PAGE_SIZE and range PAGE_SIZE_OUT_OF_RANGE coverage passed."],
+      checks: ["Ordering and tie cases, cursor INVALID_CURSOR cases, malformed INVALID_PAGE_SIZE and range PAGE_SIZE_OUT_OF_RANGE cases, and input immutability coverage passed."],
       message: "Ready."
     },
   },

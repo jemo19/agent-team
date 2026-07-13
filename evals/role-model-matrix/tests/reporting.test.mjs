@@ -62,7 +62,8 @@ test("generates JSON, CSV, and Markdown reports from the append-only journal", a
   };
   await writeFile(path.join(root, "journal.jsonl"), `${JSON.stringify(record)}\n`);
   const report = await generateReports(root);
-  assert.equal(report.statusCounts.passed, 1);
+  assert.equal(report.statusCounts.scoring_indeterminate, 1);
+  assert.equal(report.cases[0].overallPass, false);
   assert.equal(report.groups[0].qualityPassRuns, 0);
   assert.equal(report.groups[0].aggregateEligibleRuns, 0);
   assert.equal(report.groups[0].taskOutcomeEligibleRuns, 1);

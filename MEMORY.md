@@ -1,6 +1,6 @@
 # Agent Team Memory
 
-Last updated: 2026-07-12
+Last updated: 2026-07-13
 
 ## Durable Decisions
 
@@ -41,8 +41,8 @@ Last updated: 2026-07-12
 - Harbor's built-in Codex subscription adapter copies reusable authentication
   into task containers. Use the tested host-side bridge, keep candidate tools
   bounded to the task environment, and require artifact/security cleanup gates.
-- The role-model suite is at `1.4.2` with harness `1.3.1` and 69 tests across
-  12 files. It runs through local `codex exec` with existing Codex
+- The role-model suite is at `1.5.0` with harness `1.4.0` and 76 tests across 13
+  files. It runs through local `codex exec` with existing Codex
   authentication; V1 does not contain custom Responses/Evals API request code.
   Candidate calls use Codex-plan usage while deterministic graders and reports
   are local.
@@ -68,7 +68,9 @@ Last updated: 2026-07-12
   routing.
 - The July 12 screen completed all 238 cells, but grader brittleness and a
   root-orchestration classification anomaly invalidate headline rankings.
-  Preserve raw evidence, fix/version the grader, and regrade offline before
+  Suite `1.5.0` fixes those defects and adds harder V2 builders. Its additive
+  regrade processed 204 compatible cases and excluded the 34 builder cases;
+  preserve raw evidence and require a fresh V2 screen plus human review before
   finalist stability work.
 
 ## Public/Private Split

@@ -3,9 +3,10 @@ import path from "node:path";
 import { latestByFingerprint, readJournal } from "./journal.mjs";
 import { CREDIT_PLANNING_SNAPSHOT } from "./options.mjs";
 import { writeJsonAtomic } from "./common.mjs";
+import { normalizeResultStatus } from "./classification.mjs";
 
-const REPORTING_VERSION = "1.3.1";
-const DIAGNOSTIC_CATEGORIES = ["harness", "policy", "gate", "scoring_indeterminate", "noncritical_failed", "nonterminal"];
+const REPORTING_VERSION = "1.4.0";
+const DIAGNOSTIC_CATEGORIES = ["harness", "policy", "gate", "scoring_indeterminate", "quality_failed", "nonterminal"];
 
 export function median(values) {
   if (!values.length) return null;
@@ -103,7 +104,7 @@ function failureCategory(record) {
   if (record.policyPass === false) return "policy";
   if (record.gatePass !== true) return "gate";
   if (record.scoringComplete !== true) return "scoring_indeterminate";
-  if (record.qualityPass !== true) return "noncritical_failed";
+  if (record.qualityPass !== true) return "quality_failed";
   return null;
 }
 
@@ -135,6 +136,8 @@ function enrichRecord(record, run, annotations) {
   const humanReview = humanStatus(annotations?.cases?.[record.fingerprint] ?? annotations?.cases?.[record.caseId], annotations ?? run.humanReview);
   const enriched = {
     ...record,
+    status: normalizeResultStatus({ ...record, scoringComplete, qualityPass }),
+    overallPass: record.terminal === true && record.harnessPass === true && record.gatePass === true && scoringComplete === true && qualityPass === true,
     taskId: record.taskId ?? descriptor.taskId ?? `${record.roleId}-task-v1`,
     fixtureId: record.fixtureId ?? descriptor.fixtureId ?? `${record.roleId}-fixture-v1`,
     fixtureVersion: record.fixtureVersion ?? descriptor.fixtureVersion ?? null,

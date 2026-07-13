@@ -5,6 +5,7 @@ import { assertSafeRelative, readJson, resolveInside, sha256, stableStringify } 
 const SANDBOXES = new Set(["read-only", "workspace-write"]);
 const KINDS = new Set([
   "output_all",
+  "output_concepts",
   "output_regex",
   "output_absent_regex",
   "subagent_count",
@@ -19,6 +20,7 @@ const DIFFICULTIES = new Set(["standard", "advanced", "adversarial"]);
 const OUTPUT_NORMALIZERS = new Set(["unicode-punctuation", "hyphen-as-space"]);
 const ASSERTION_FIELDS = {
   output_all: ["field", "fields", "patterns", "absentPatterns", "flags", "normalizers"],
+  output_concepts: ["fields", "concepts", "absentPatterns", "flags", "normalizers"],
   output_regex: ["pattern", "flags"],
   output_absent_regex: ["pattern", "flags"],
   subagent_count: ["minimum", "maximum"],
@@ -75,10 +77,11 @@ export function validateRubric(rubric, label = "rubric") {
     }
     if (typeof assertion.critical !== "boolean") errors.push(`${at}.critical must be boolean`);
     if (!DIMENSIONS.has(assertion.dimension)) errors.push(`${at}.dimension is unsupported: ${assertion.dimension}`);
-    if (assertion.kind === "output_all") {
+    if (assertion.kind === "output_all" || assertion.kind === "output_concepts") {
       const hasField = assertion.field !== undefined;
       const hasFields = assertion.fields !== undefined;
-      if (hasField === hasFields) errors.push(`${at} must define exactly one of field or fields`);
+      if (assertion.kind === "output_all" && hasField === hasFields) errors.push(`${at} must define exactly one of field or fields`);
+      if (assertion.kind === "output_concepts" && (hasField || !hasFields)) errors.push(`${at} must define fields and may not define field`);
       if (hasField && !OUTPUT_FIELDS.has(assertion.field)) errors.push(`${at}.field is unsupported: ${assertion.field}`);
       if (hasFields) {
         if (!Array.isArray(assertion.fields) || assertion.fields.length === 0) errors.push(`${at}.fields must be a non-empty array`);
@@ -99,10 +102,37 @@ export function validateRubric(rubric, label = "rubric") {
           });
         }
       }
-      if (!Array.isArray(assertion.patterns) || assertion.patterns.length === 0) {
-        errors.push(`${at}.patterns must be a non-empty array`);
-      } else {
-        assertion.patterns.forEach((pattern, patternIndex) => validateRegex(pattern, assertion.flags, `${at}.patterns[${patternIndex}]`, errors));
+      if (assertion.kind === "output_all") {
+        if (!Array.isArray(assertion.patterns) || assertion.patterns.length === 0) {
+          errors.push(`${at}.patterns must be a non-empty array`);
+        } else {
+          assertion.patterns.forEach((pattern, patternIndex) => validateRegex(pattern, assertion.flags, `${at}.patterns[${patternIndex}]`, errors));
+        }
+      }
+      if (assertion.kind === "output_concepts") {
+        if (!Array.isArray(assertion.concepts) || assertion.concepts.length === 0) {
+          errors.push(`${at}.concepts must be a non-empty array`);
+        } else {
+          const conceptIds = new Set();
+          assertion.concepts.forEach((concept, conceptIndex) => {
+            const conceptAt = `${at}.concepts[${conceptIndex}]`;
+            if (!concept || typeof concept !== "object" || Array.isArray(concept)) {
+              errors.push(`${conceptAt} must be an object`);
+              return;
+            }
+            requiredString(concept.id, `${conceptAt}.id`, errors);
+            if (typeof concept.id === "string" && !/^[a-z0-9][a-z0-9_-]*$/.test(concept.id)) errors.push(`${conceptAt}.id has unsupported characters: ${concept.id}`);
+            if (conceptIds.has(concept.id)) errors.push(`${conceptAt}.id duplicates ${concept.id}`);
+            conceptIds.add(concept.id);
+            const unknownConceptFields = Object.keys(concept).filter((key) => !["id", "anyOf"].includes(key));
+            if (unknownConceptFields.length) errors.push(`${conceptAt} has unknown fields: ${unknownConceptFields.join(", ")}`);
+            if (!Array.isArray(concept.anyOf) || concept.anyOf.length === 0) {
+              errors.push(`${conceptAt}.anyOf must be a non-empty array`);
+            } else {
+              concept.anyOf.forEach((pattern, patternIndex) => validateRegex(pattern, assertion.flags, `${conceptAt}.anyOf[${patternIndex}]`, errors));
+            }
+          });
+        }
       }
       if (assertion.absentPatterns !== undefined) {
         if (!Array.isArray(assertion.absentPatterns) || assertion.absentPatterns.length === 0) {

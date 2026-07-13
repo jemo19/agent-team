@@ -154,11 +154,11 @@ The versioned evaluation design lives in
 `evals/role-model-matrix/`. Version 1 defines one synthetic
 difficult/adversarial fixture for each of 14 role surfaces and freezes 17
 supported Sol, Terra, and Luna reasoning configurations. A complete screen is
-238 candidate runs before confirmations. The current suite is `1.4.2` with
-harness `1.3.1`. It records indeterminate delegation telemetry as a score
+238 candidate runs before confirmations. The prepared suite is `1.5.0` with
+harness `1.4.0`. It records indeterminate delegation telemetry as a score
 interval, keeps model-generated commands outside the Codex authentication
 namespace, distinguishes recovered transport warnings from fatal failures, and
-has 69 deterministic regression tests.
+has 76 deterministic regression tests across 13 files.
 
 The local harness uses the installed `codex exec` client and existing Codex
 authentication, not custom Responses/Evals API request code. Candidate turns

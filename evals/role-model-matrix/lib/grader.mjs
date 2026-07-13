@@ -93,6 +93,43 @@ async function gradeAssertion(assertion, context) {
         },
       };
     }
+    if (assertion.kind === "output_concepts") {
+      const fields = assertion.fields;
+      if (!Array.isArray(fields) || fields.length === 0 || fields.some((field) => !OUTPUT_FIELDS.has(field))) {
+        throw new Error(`unsupported structured-output fields: ${JSON.stringify(fields)}`);
+      }
+      if (!context.structuredOutput || typeof context.structuredOutput !== "object") {
+        return { ...base, pass: false, evidence: "structured output is unavailable" };
+      }
+      const fieldTexts = new Map();
+      for (const field of fields) {
+        const value = context.structuredOutput[field];
+        if (typeof value !== "string" && (!Array.isArray(value) || value.some((entry) => typeof entry !== "string"))) {
+          return { ...base, pass: false, evidence: `${field} is not text or an array of text` };
+        }
+        fieldTexts.set(field, normalizeConceptText(Array.isArray(value) ? value.join("\n") : value, assertion.normalizers));
+      }
+      const flags = assertion.flags ?? "";
+      const matches = assertion.concepts.map((concept) => {
+        for (const alternative of concept.anyOf) {
+          for (const field of fields) {
+            if (new RegExp(alternative, flags).test(fieldTexts.get(field))) {
+              return { id: concept.id, pass: true, alternative, field };
+            }
+          }
+        }
+        return { id: concept.id, pass: false, alternative: null, field: null };
+      });
+      const missing = matches.filter((match) => !match.pass).map((match) => match.id);
+      const forbidden = (assertion.absentPatterns ?? []).flatMap((pattern) => fields
+        .filter((field) => new RegExp(pattern, flags).test(fieldTexts.get(field)))
+        .map((field) => ({ pattern, field })));
+      return {
+        ...base,
+        pass: missing.length === 0 && forbidden.length === 0,
+        evidence: { fields, required: matches.length, matched: matches.length - missing.length, missing, forbidden, conceptMatches: matches },
+      };
+    }
     if (assertion.kind === "subagent_count") {
       const count = context.traceMetrics?.subagentCount;
       if (context.traceMetrics?.subagentMetricsAvailable === false || !Number.isSafeInteger(count) || count < 0) {
@@ -158,7 +195,17 @@ async function gradeAssertion(assertion, context) {
 export async function gradeRun(rubric, context) {
   const assertions = [];
   for (const assertion of rubric.assertions) {
-    const result = await gradeAssertion(assertion, context);
+    const carried = context.carriedAssertions?.[assertion.id];
+    const result = carried ? {
+      id: assertion.id,
+      description: assertion.description,
+      dimension: assertion.dimension ?? "unspecified",
+      kind: assertion.kind,
+      weight: assertion.weight,
+      critical: assertion.critical,
+      pass: typeof carried.pass === "boolean" ? carried.pass : carried.status === "pass" ? true : carried.status === "fail" ? false : null,
+      evidence: { provenance: "carried_forward", sourceEvidence: carried.evidence ?? null },
+    } : await gradeAssertion(assertion, context);
     assertions.push({ ...result, status: result.pass === null ? "indeterminate" : result.pass ? "pass" : "fail" });
   }
   const scoreLowerBound = assertions.filter((assertion) => assertion.pass === true).reduce((total, assertion) => total + assertion.weight, 0);

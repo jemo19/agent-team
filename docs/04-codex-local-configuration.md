@@ -86,13 +86,14 @@ current model and custom-agent semantics.
 
 Do not over-specialize too early. Add agents only after you see repeated work patterns.
 
-The current role benchmark is suite `1.4.2` with harness `1.3.1`. Calibration
+The prepared role benchmark is suite `1.5.0` with harness `1.4.0`. Calibration
 supports 13 of 14 installed controls on the V1 fixtures; `customer_comms` has a
 real fixture failure. The July 12 Sol/Terra/Luna screen completed all 238 cells,
 but human review found assertion brittleness and a root-orchestration terminal
-classification anomaly. Preserve it for offline regrading rather than using its
-raw rankings. See `docs/16-role-model-evaluation.md` for the methodology and
-next gate. Production routing remains unchanged until finalist stability, three
+classification anomaly. Its additive offline regrade preserves the frozen
+source and excludes the 34 changed V2 builder cases. See
+`docs/16-role-model-evaluation.md` for the methodology and next gate. Production
+routing remains unchanged until finalist stability, three
 distinct fixtures, human review, and operator approval are complete.
 
 ## Rules

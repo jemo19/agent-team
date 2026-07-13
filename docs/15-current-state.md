@@ -104,8 +104,8 @@ The public-safe benchmark specification is
 `docs/16-role-model-evaluation.md`, with executable fixtures and reporting under
 `evals/role-model-matrix/`. Version 1 covers 14 root, global, and project-local
 role surfaces against a frozen 17-configuration matrix, for 238 screening cells
-per repetition. The current implementation is suite `1.4.2` with harness
-`1.3.1`.
+per repetition. The current implementation is suite `1.5.0` with harness
+`1.4.0`.
 
 The benchmark uses synthetic data and isolated disposable workspaces. It
 records harness validity, critical gates, task quality, latency, token usage,
@@ -141,6 +141,15 @@ classification anomaly. Preserve the run as harness-calibration evidence; its
 raw 152-pass/86-gate-failure split does not support a model ranking or routing
 change.
 
+Suite `1.5.0` implements the corrective boundary: explicit semantic
+alternatives search logical output fields, terminal status distinguishes hard
+gates, incomplete scoring, and quality failures, and the two ceiling-effect
+builders are replaced by V2 cursor-pagination and dependency-DAG fixtures. An
+additive offline regrade covered 204 compatible cases and excluded the 34
+changed builder cases. It recovered 31 semantic credits and rejected one old
+keyword-only credit without rewriting the frozen source run. A fresh V2 screen
+and human review are still required before ranking or routing decisions.
+
 A separate public lane under `evals/public-benchmarks/terminal-bench-2/`
 completed 85 comparable Terminal-Bench 2 cells: all 17 configurations on five
 pinned tasks. Sol/xhigh and Terra/ultra each scored 4/5, with wide overlapping
@@ -166,16 +175,17 @@ Project-specific deploy skills are local extensions. Keep exact hostnames,
 private paths, SSH command allow-lists, credential locations, and customer facts
 in the project docs or ignored private notes.
 
-Validation status as of 2026-07-12:
+Validation status as of 2026-07-13:
 
 - the GPT-5.6 agent TOMLs parse, all configured model/effort pairs exist in the
   current local Codex catalog, and migration smoke calls succeeded before the
   current usage-limit stop;
 - the role-model evaluation manifest resolves 14 calibration controls and the
   completed 238-cell screen;
-- suite `1.4.2` / harness `1.3.1` passes 69 tests across 12 files, isolation
-  probes, static validation, `bash scripts/validate-package.sh`, and
-  `git diff --check`;
+- suite `1.5.0` / harness `1.4.0` passes 76 tests across 13 files, static
+  manifest validation, semantic
+  calibration controls, builder seed/gold controls, and terminal-classification
+  regression checks;
 - calibration v6 completed 14/14 controls and its human review plus current
   offline replay are preserved in the local ignored results directory;
 - the host-side Terminal-Bench bridge passes 17 tests, and the five-task public

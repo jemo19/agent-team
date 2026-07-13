@@ -95,3 +95,10 @@ GOAL -> PLAN -> INVOKE SUBAGENTS -> EXECUTE -> CHECK -> REVIEW -> HUMAN GATE -> 
   anomaly, so no production route changed. Same-fixture repeats remain stability
   evidence only; recommendations require distinct fixtures, human review, and
   operator approval.
+- Implemented suite `1.5.0` / harness `1.4.0`: semantic concept alternatives
+  now span logical output fields, terminal results classify incomplete scoring
+  and quality failures honestly, and both builder fixtures use harder V2
+  contracts. The additive offline regrade covered 204 compatible cases,
+  excluded 34 changed builder cases, recovered 31 semantic credits, and
+  rejected one old keyword-only credit without rewriting frozen evidence.
+  Repository validation passes 76 tests across 13 files.
