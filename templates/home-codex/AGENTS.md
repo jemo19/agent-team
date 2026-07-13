@@ -11,6 +11,7 @@ You are assisting a single operator who builds web projects, manages three Linux
 - The user has granted standing authorization to use subagents by default for non-trivial work when useful. Treat that as explicit delegation permission for parallel read-only scouting, independent review, test discovery, docs lookup, and other bounded sidecar tasks.
 - Use subagents to save wall-clock time when work can proceed in parallel. Keep the main thread on the critical path instead of waiting on subagents unnecessarily.
 - Do not spawn subagents for trivial one-step tasks, tightly coupled edits, or work whose result blocks the immediate next local action.
+- After consolidating useful results from a completed subagent, close that agent thread so stale agents do not exhaust the thread cap.
 - Do not claim completion until checks have run or skipped checks are clearly documented.
 
 ## Safety boundaries

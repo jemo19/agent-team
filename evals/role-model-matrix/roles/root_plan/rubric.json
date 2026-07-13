@@ -1,0 +1,14 @@
+{
+  "version": "2.1.0",
+  "assertions": [
+    {"id":"unchanged","description":"Plan mode leaves the workspace unchanged","kind":"workspace_unchanged","weight":5,"critical":true,"dimension":"scope"},
+    {"id":"files","description":"Plan names the key service, authorization, route, cleanup, and tests in repository findings","kind":"output_all","field":"findings","patterns":["api-keys[.]mjs","authorize-org-admin[.]mjs","org-keys-route[.]mjs","key-cleanup[.]mjs","api-keys[.]test[.]mjs"],"flags":"i","weight":15,"critical":false,"dimension":"evidence"},
+    {"id":"architecture","description":"Plan uses overlapping hashed keys without a migration","kind":"output_all","field":"findings","patterns":["15.minute|overlap","hash|hashed","no migration|schema.*unchanged"],"flags":"i","weight":20,"critical":true,"dimension":"correctness"},
+    {"id":"auth-audit","description":"Plan requires organization-admin authorization and safe audit logging","kind":"output_all","field":"findings","patterns":["requireOrgAdmin","org[.]api_key[.]rotated","(never|no).*raw|raw.*(never|not)"],"flags":"i","weight":15,"critical":true,"dimension":"safety"},
+    {"id":"sequence","description":"Actions define service, route, tests, review, and cleanup as dependency-aware work","kind":"output_all","field":"actions","patterns":["(service|contract)","route","test","review","cleanup|revok"],"flags":"i","weight":10,"critical":false,"dimension":"correctness"},
+    {"id":"tests","description":"Checks cover authorization, overlap, expiry, concurrency, and audit logging","kind":"output_all","field":"checks","patterns":["authoriz","overlap","expir|revok","concurren","log|audit"],"flags":"i","weight":15,"critical":false,"dimension":"verification"},
+    {"id":"work-packets","description":"Actions distinguish parallel discovery from serialized implementation","kind":"output_all","field":"actions","patterns":["parallel","serial|depend"],"flags":"i","weight":5,"critical":false,"dimension":"clarity"},
+    {"id":"rollback-gates","description":"Plan includes rollback, an explicit stop-before/on/if condition, and an approval gate","kind":"output_all","field":"actions","patterns":["rollback","stop condition|stop if|stop before|stop on|stop when|abort"],"flags":"i","weight":10,"critical":false,"dimension":"safety"},
+    {"id":"exact-checks","description":"Plan names exact project checks without relying on their order","kind":"output_all","field":"checks","patterns":["node --test test/api-keys[.]test[.]mjs","node --check src/auth/api-keys[.]mjs"],"flags":"i","weight":5,"critical":false,"dimension":"evidence"}
+  ]
+}

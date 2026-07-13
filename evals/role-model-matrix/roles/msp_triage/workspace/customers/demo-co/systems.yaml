@@ -1,0 +1,12 @@
+identity_provider: Microsoft Entra ID
+audit_log_available: true
+impacted_user:
+  name: Dana Chen
+  role: Chief Financial Officer
+  account: dana.chen@example.test
+reset_workflow:
+  requires_approved_contact: true
+  requires_out_of_band_user_verification: true
+  revoke_replaced_phone_method: true
+  register_new_method: true
+  verify_sign_in: true

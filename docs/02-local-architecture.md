@@ -16,9 +16,9 @@
   repos      repo           tickets/
 ```
 
-The root Codex session is the orchestrator. It reads the goal, plans work, decides which subagents to invoke, waits for them, consolidates results, and asks for approval where required.
+The root Codex session is the orchestrator. It reads the goal, plans work, decides which subagents to invoke, waits for them, consolidates results, closes completed subagent threads, and asks for approval where required.
 
-Subagents are specialists. They should be narrow, bounded, and disposable. Most subagents should be read-only until the plan is clear.
+Subagents are specialists. They should be narrow, bounded, and disposable. Most subagents should be read-only until the plan is clear. Once their useful output has been summarized into the main thread, close the completed agent threads so stale agents do not consume the thread cap.
 
 ## Repositories and directories
 
@@ -116,26 +116,32 @@ This is the control repo for local infrastructure and MSP operations. It should 
 
 ## Model/effort routing
 
-You currently use GPT-5.5 as the known working model in Codex CLI. Route reasoning effort by role instead of defaulting every subagent to `xhigh`.
+Use the GPT-5.6 family by role. `gpt-5.6-sol` is the demanding-work model,
+`gpt-5.6-terra` is the balanced parallel-worker model, and
+`gpt-5.6-luna` is reserved for future deterministic high-volume roles. Route
+reasoning effort by role instead of defaulting every subagent to `xhigh`.
 
 Where the CLI supports effort/model changes, use this local routing:
 
-| Work type | Suggested effort | Why |
-|---|---:|---|
-| Root orchestration | xhigh | Needs planning, risk control, synthesis. |
-| Project architecture and migration planning | xhigh | Per-repo architects handle serious cross-file decisions and sequencing. |
-| Infra/customer change planning | xhigh | Server/customer planning has enough blast radius to justify maximum reasoning by default. |
-| Project implementation worker | high | Builders receive bounded packets, but still need enough reasoning to avoid bad edits. |
-| Read-only scouts | medium | Cheaper/faster; they only gather facts. |
-| Test mapper | medium | Finds commands and gaps; escalate only for complex regression strategy. |
-| Project reviewer / security/risk reviewer | xhigh | Independent review should be strict. |
-| Customer comms/documentation | medium | Needs clarity, less deep reasoning. |
+| Work type | Model | Suggested effort | Why |
+|---|---|---:|---|
+| Root orchestration | `gpt-5.6-sol` | xhigh | Needs planning, risk control, synthesis. |
+| Project architecture and migration planning | `gpt-5.6-sol` | xhigh | Per-repo architects handle serious cross-file decisions and sequencing. |
+| Infra/customer change planning | `gpt-5.6-sol` | xhigh | Server/customer planning has enough blast radius to justify deep reasoning. |
+| Project implementation worker | `gpt-5.6-sol` | high | Builders receive bounded packets, but still need strong follow-through and validation. |
+| Read-only scouts | `gpt-5.6-terra` | medium | Faster and more efficient for evidence gathering. |
+| Test mapper | `gpt-5.6-terra` | medium | Finds commands and gaps; escalate only for complex regression strategy. |
+| Project reviewer / security/risk reviewer | `gpt-5.6-sol` | xhigh | Independent review should be strict. |
+| Infrastructure recon | `gpt-5.6-terra` | high | Read-heavy work that still needs operational judgment. |
+| Customer comms/documentation | `gpt-5.6-terra` | medium | Balanced quality and speed for nuanced support work. |
 
-Do not use `xhigh` everywhere as the normal path. Keep project-local architecture and review strong, keep bounded builders at `high`, and use cheaper sidecar scouts for file mapping and routine evidence gathering.
+Do not use `xhigh` everywhere as the normal path. Keep project-local architecture and review strong, keep bounded builders at `high`, and use Terra sidecars for file mapping and routine evidence gathering. Preserve current effort during the model migration, then benchmark one lower effort separately on representative work.
 
 ## Parallelism policy
 
 The user has granted standing authorization for Codex to use subagents by default on non-trivial work when the work can be split safely. This is intended to trade token burn for lower wall-clock time.
+
+Completed subagents should be closed after consolidation. If the active agent thread limit is full, close stale completed agents before spawning new ones.
 
 Parallelism is useful when agents do not write the same things.
 

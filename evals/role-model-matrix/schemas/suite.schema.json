@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["suiteVersion", "matrix", "baselines", "roles"],
+  "properties": {
+    "suiteVersion": { "type": "string", "minLength": 1 },
+    "matrix": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["model", "efforts"],
+        "properties": {
+          "model": { "type": "string", "minLength": 1 },
+          "efforts": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "baselines": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["model", "effort"],
+        "properties": {
+          "model": { "type": "string", "minLength": 1 },
+          "effort": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "roles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "displayName",
+          "sandbox",
+          "roleFile",
+          "taskFile",
+          "workspace",
+          "rubricFile",
+          "fixture",
+          "hiddenFiles"
+        ],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]*$" },
+          "displayName": { "type": "string", "minLength": 1 },
+          "sandbox": { "enum": ["read-only", "workspace-write"] },
+          "roleFile": { "type": "string", "minLength": 1 },
+          "taskFile": { "type": "string", "minLength": 1 },
+          "workspace": { "type": "string", "minLength": 1 },
+          "rubricFile": { "type": "string", "minLength": 1 }
+          ,
+          "fixture": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["fixtureId", "version", "difficulty", "taskSummary", "instructionSource", "sourceNote"],
+            "properties": {
+              "fixtureId": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]*$" },
+              "version": { "type": "string", "minLength": 1 },
+              "difficulty": { "enum": ["standard", "advanced", "adversarial"] },
+              "taskSummary": { "type": "string", "minLength": 1 },
+              "instructionSource": { "const": "controlled-instruction-surrogate" },
+              "sourceNote": { "type": "string", "minLength": 1 }
+            }
+          },
+          "hiddenFiles": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "uniqueItems": true
+          },
+          "referenceOutputFile": { "type": "string", "minLength": 1 },
+          "negativeControlOutputFile": { "type": "string", "minLength": 1 },
+          "goldWorkspaceFiles": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    }
+  }
+}

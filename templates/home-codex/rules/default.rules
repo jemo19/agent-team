@@ -9,12 +9,11 @@ prefix_rule(
     match = ["sudo systemctl status nginx", "sudo apt update"],
 )
 
-prefix_rule(
-    pattern = ["ssh"],
-    decision = "prompt",
-    justification = "Remote commands require approval and an evidence plan.",
-    match = ["ssh srv1 uptime", "ssh customer-host hostnamectl"],
-)
+# Do not add a catch-all pattern=["ssh"] prompt rule to this reusable template.
+# Codex chooses the most restrictive matching decision, so a generic SSH prompt
+# overrides narrower allow rules for approved project deploy commands. Use
+# project deployment skills, exact command allow-lists, and session approval
+# policy for remote-impact work.
 
 prefix_rule(
     pattern = ["scp"],

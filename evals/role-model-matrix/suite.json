@@ -1,0 +1,133 @@
+{
+  "suiteVersion": "1.4.2",
+  "matrix": [
+    {
+      "model": "gpt-5.6-sol",
+      "efforts": ["low", "medium", "high", "xhigh", "max", "ultra"]
+    },
+    {
+      "model": "gpt-5.6-terra",
+      "efforts": ["low", "medium", "high", "xhigh", "max", "ultra"]
+    },
+    {
+      "model": "gpt-5.6-luna",
+      "efforts": ["low", "medium", "high", "xhigh", "max"]
+    }
+  ],
+  "baselines": {
+    "root_orchestration": {"model":"gpt-5.6-sol","effort":"ultra"},
+    "root_plan": {"model":"gpt-5.6-sol","effort":"xhigh"},
+    "web_scout": {"model":"gpt-5.6-terra","effort":"medium"},
+    "web_builder": {"model":"gpt-5.6-sol","effort":"high"},
+    "test_mapper": {"model":"gpt-5.6-terra","effort":"medium"},
+    "risk_reviewer": {"model":"gpt-5.6-sol","effort":"xhigh"},
+    "infra_recon": {"model":"gpt-5.6-terra","effort":"high"},
+    "infra_planner": {"model":"gpt-5.6-sol","effort":"xhigh"},
+    "iac_planner": {"model":"gpt-5.6-sol","effort":"xhigh"},
+    "msp_triage": {"model":"gpt-5.6-terra","effort":"medium"},
+    "customer_comms": {"model":"gpt-5.6-terra","effort":"medium"},
+    "project_architect": {"model":"gpt-5.6-sol","effort":"xhigh"},
+    "project_builder": {"model":"gpt-5.6-sol","effort":"high"},
+    "project_reviewer": {"model":"gpt-5.6-sol","effort":"xhigh"}
+  },
+  "roles": [
+    {
+      "id": "root_orchestration", "displayName": "Root orchestration", "sandbox": "workspace-write",
+      "roleFile": "roles/root_orchestration/role.md", "taskFile": "roles/root_orchestration/task.md", "workspace": "roles/root_orchestration/workspace", "rubricFile": "roles/root_orchestration/rubric.json",
+      "fixture": {"fixtureId":"root-orchestration-incident-summary","version":"1.0.0","difficulty":"adversarial","taskSummary":"Decompose, implement, verify, and independently review a bounded incident-summary feature.","instructionSource":"controlled-instruction-surrogate","sourceNote":"Purpose-built synthetic surrogate; not a verbatim copy of the active production role prompt."},
+      "hiddenFiles": ["roles/root_orchestration/hidden/grade.mjs", "roles/root_orchestration/hidden/gold/summary.mjs"],
+      "goldWorkspaceFiles": {"src/summary.mjs":"roles/root_orchestration/hidden/gold/summary.mjs"}
+    },
+    {
+      "id": "root_plan", "displayName": "Root plan mode", "sandbox": "read-only",
+      "roleFile": "roles/root_plan/role.md", "taskFile": "roles/root_plan/task.md", "workspace": "roles/root_plan/workspace", "rubricFile": "roles/root_plan/rubric.json",
+      "fixture": {"fixtureId":"root-plan-api-key-rotation","version":"1.0.0","difficulty":"advanced","taskSummary":"Produce a dependency-aware, approval-gated API-key rotation implementation plan.","instructionSource":"controlled-instruction-surrogate","sourceNote":"Purpose-built synthetic surrogate; not a verbatim copy of the active production role prompt."},
+      "hiddenFiles": ["roles/root_plan/hidden/reference-output.json", "roles/root_plan/hidden/negative-control-output.json"],
+      "referenceOutputFile": "roles/root_plan/hidden/reference-output.json", "negativeControlOutputFile": "roles/root_plan/hidden/negative-control-output.json"
+    },
+    {
+      "id": "web_scout", "displayName": "Web scout", "sandbox": "read-only",
+      "roleFile": "roles/web_scout/role.md", "taskFile": "roles/web_scout/task.md", "workspace": "roles/web_scout/workspace", "rubricFile": "roles/web_scout/rubric.json",
+      "fixture": {"fixtureId":"web-scout-discount-preview","version":"1.0.0","difficulty":"advanced","taskSummary":"Trace a checkout discount-preview flow, tests, commands, conventions, risks, and a decoy.","instructionSource":"controlled-instruction-surrogate","sourceNote":"Purpose-built synthetic surrogate; not a verbatim copy of the active production role prompt."},
+      "hiddenFiles": ["roles/web_scout/hidden/reference-output.json", "roles/web_scout/hidden/negative-control-output.json"],
+      "referenceOutputFile": "roles/web_scout/hidden/reference-output.json", "negativeControlOutputFile": "roles/web_scout/hidden/negative-control-output.json"
+    },
+    {
+      "id": "web_builder", "displayName": "Web builder", "sandbox": "workspace-write",
+      "roleFile": "roles/web_builder/role.md", "taskFile": "roles/web_builder/task.md", "workspace": "roles/web_builder/workspace", "rubricFile": "roles/web_builder/rubric.json",
+      "fixture": {"fixtureId":"web-builder-page-size-parser","version":"1.0.0","difficulty":"adversarial","taskSummary":"Implement and test a strict page-size parser against hidden malformed-input cases.","instructionSource":"controlled-instruction-surrogate","sourceNote":"Purpose-built synthetic surrogate; not a verbatim copy of the active production role prompt."},
+      "hiddenFiles": ["roles/web_builder/hidden/grade.mjs", "roles/web_builder/hidden/gold/pagination.mjs"],
+      "goldWorkspaceFiles": {"src/pagination.mjs":"roles/web_builder/hidden/gold/pagination.mjs"}
+    },
+    {
+      "id": "test_mapper", "displayName": "Test mapper", "sandbox": "read-only",
+      "roleFile": "roles/test_mapper/role.md", "taskFile": "roles/test_mapper/task.md", "workspace": "roles/test_mapper/workspace", "rubricFile": "roles/test_mapper/rubric.json",
+      "fixture": {"fixtureId":"test-mapper-duplicate-order","version":"1.0.0","difficulty":"advanced","taskSummary":"Map deterministic regression coverage for a duplicate-order concurrency race.","instructionSource":"controlled-instruction-surrogate","sourceNote":"Purpose-built synthetic surrogate; not a verbatim copy of the active production role prompt."},
+      "hiddenFiles": ["roles/test_mapper/hidden/reference-output.json", "roles/test_mapper/hidden/negative-control-output.json"],
+      "referenceOutputFile": "roles/test_mapper/hidden/reference-output.json", "negativeControlOutputFile": "roles/test_mapper/hidden/negative-control-output.json"
+    },
+    {
+      "id": "risk_reviewer", "displayName": "Risk reviewer", "sandbox": "read-only",
+      "roleFile": "roles/risk_reviewer/role.md", "taskFile": "roles/risk_reviewer/task.md", "workspace": "roles/risk_reviewer/workspace", "rubricFile": "roles/risk_reviewer/rubric.json",
+      "fixture": {"fixtureId":"risk-review-contact-export","version":"1.0.0","difficulty":"adversarial","taskSummary":"Find and evidence authorization, secret exposure, logging, and CSV-injection defects.","instructionSource":"controlled-instruction-surrogate","sourceNote":"Purpose-built synthetic surrogate; not a verbatim copy of the active production role prompt."},
+      "hiddenFiles": ["roles/risk_reviewer/hidden/reference-output.json", "roles/risk_reviewer/hidden/negative-control-output.json"],
+      "referenceOutputFile": "roles/risk_reviewer/hidden/reference-output.json", "negativeControlOutputFile": "roles/risk_reviewer/hidden/negative-control-output.json"
+    },
+    {
+      "id": "infra_recon", "displayName": "Infrastructure recon", "sandbox": "read-only",
+      "roleFile": "roles/infra_recon/role.md", "taskFile": "roles/infra_recon/task.md", "workspace": "roles/infra_recon/workspace", "rubricFile": "roles/infra_recon/rubric.json",
+      "fixture": {"fixtureId":"infra-recon-monthly-hosts","version":"1.0.0","difficulty":"advanced","taskSummary":"Prepare a role-aware, read-only, approval-gated monthly server reconnaissance plan.","instructionSource":"controlled-instruction-surrogate","sourceNote":"Purpose-built synthetic surrogate; not a verbatim copy of the active production role prompt."},
+      "hiddenFiles": ["roles/infra_recon/hidden/reference-output.json", "roles/infra_recon/hidden/negative-control-output.json"],
+      "referenceOutputFile": "roles/infra_recon/hidden/reference-output.json", "negativeControlOutputFile": "roles/infra_recon/hidden/negative-control-output.json"
+    },
+    {
+      "id": "infra_planner", "displayName": "Infrastructure planner", "sandbox": "read-only",
+      "roleFile": "roles/infra_planner/role.md", "taskFile": "roles/infra_planner/task.md", "workspace": "roles/infra_planner/workspace", "rubricFile": "roles/infra_planner/rubric.json",
+      "fixture": {"fixtureId":"infra-plan-production-upgrade","version":"1.0.0","difficulty":"adversarial","taskSummary":"Plan a blocked database and rolling application upgrade with gates and rollback.","instructionSource":"controlled-instruction-surrogate","sourceNote":"Purpose-built synthetic surrogate; not a verbatim copy of the active production role prompt."},
+      "hiddenFiles": ["roles/infra_planner/hidden/reference-output.json", "roles/infra_planner/hidden/negative-control-output.json"],
+      "referenceOutputFile": "roles/infra_planner/hidden/reference-output.json", "negativeControlOutputFile": "roles/infra_planner/hidden/negative-control-output.json"
+    },
+    {
+      "id": "iac_planner", "displayName": "IaC planner", "sandbox": "read-only",
+      "roleFile": "roles/iac_planner/role.md", "taskFile": "roles/iac_planner/task.md", "workspace": "roles/iac_planner/workspace", "rubricFile": "roles/iac_planner/rubric.json",
+      "fixture": {"fixtureId":"iac-plan-existing-dns-import","version":"1.0.0","difficulty":"adversarial","taskSummary":"Reconcile an existing DNS record into Terraform state without destructive shortcuts.","instructionSource":"controlled-instruction-surrogate","sourceNote":"Purpose-built synthetic surrogate; not a verbatim copy of the active production role prompt."},
+      "hiddenFiles": ["roles/iac_planner/hidden/reference-output.json", "roles/iac_planner/hidden/negative-control-output.json"],
+      "referenceOutputFile": "roles/iac_planner/hidden/reference-output.json", "negativeControlOutputFile": "roles/iac_planner/hidden/negative-control-output.json"
+    },
+    {
+      "id": "msp_triage", "displayName": "MSP triage", "sandbox": "read-only",
+      "roleFile": "roles/msp_triage/role.md", "taskFile": "roles/msp_triage/task.md", "workspace": "roles/msp_triage/workspace", "rubricFile": "roles/msp_triage/rubric.json",
+      "fixture": {"fixtureId":"msp-triage-executive-mfa","version":"1.0.0","difficulty":"adversarial","taskSummary":"Triage an executive MFA-reset request containing an authorization bypass attempt.","instructionSource":"controlled-instruction-surrogate","sourceNote":"Purpose-built synthetic surrogate; not a verbatim copy of the active production role prompt."},
+      "hiddenFiles": ["roles/msp_triage/hidden/reference-output.json", "roles/msp_triage/hidden/negative-control-output.json"],
+      "referenceOutputFile": "roles/msp_triage/hidden/reference-output.json", "negativeControlOutputFile": "roles/msp_triage/hidden/negative-control-output.json"
+    },
+    {
+      "id": "customer_comms", "displayName": "Customer communications", "sandbox": "read-only",
+      "roleFile": "roles/customer_comms/role.md", "taskFile": "roles/customer_comms/task.md", "workspace": "roles/customer_comms/workspace", "rubricFile": "roles/customer_comms/rubric.json",
+      "fixture": {"fixtureId":"customer-comms-dns-change","version":"1.0.0","difficulty":"advanced","taskSummary":"Draft a concise DNS-change response while withholding internal diagnostics and claims.","instructionSource":"controlled-instruction-surrogate","sourceNote":"Purpose-built synthetic surrogate; not a verbatim copy of the active production role prompt."},
+      "hiddenFiles": ["roles/customer_comms/hidden/reference-output.json", "roles/customer_comms/hidden/negative-control-output.json"],
+      "referenceOutputFile": "roles/customer_comms/hidden/reference-output.json", "negativeControlOutputFile": "roles/customer_comms/hidden/negative-control-output.json"
+    },
+    {
+      "id": "project_architect", "displayName": "Project architect", "sandbox": "read-only",
+      "roleFile": "roles/project_architect/role.md", "taskFile": "roles/project_architect/task.md", "workspace": "roles/project_architect/workspace", "rubricFile": "roles/project_architect/rubric.json",
+      "fixture": {"fixtureId":"project-architect-saved-filters","version":"1.0.0","difficulty":"advanced","taskSummary":"Design a saved-filter feature around existing contracts, auth, validation, and rollback.","instructionSource":"controlled-instruction-surrogate","sourceNote":"Purpose-built synthetic surrogate; not a verbatim copy of the active production role prompt."},
+      "hiddenFiles": ["roles/project_architect/hidden/reference-output.json", "roles/project_architect/hidden/negative-control-output.json"],
+      "referenceOutputFile": "roles/project_architect/hidden/reference-output.json", "negativeControlOutputFile": "roles/project_architect/hidden/negative-control-output.json"
+    },
+    {
+      "id": "project_builder", "displayName": "Project builder", "sandbox": "workspace-write",
+      "roleFile": "roles/project_builder/role.md", "taskFile": "roles/project_builder/task.md", "workspace": "roles/project_builder/workspace", "rubricFile": "roles/project_builder/rubric.json",
+      "fixture": {"fixtureId":"project-builder-check-summary","version":"1.0.0","difficulty":"adversarial","taskSummary":"Implement a pure check-summary contract across hidden outcome and input-safety cases.","instructionSource":"controlled-instruction-surrogate","sourceNote":"Purpose-built synthetic surrogate; not a verbatim copy of the active production role prompt."},
+      "hiddenFiles": ["roles/project_builder/hidden/grade.mjs", "roles/project_builder/hidden/gold/check-summary.mjs"],
+      "goldWorkspaceFiles": {"src/check-summary.mjs":"roles/project_builder/hidden/gold/check-summary.mjs"}
+    },
+    {
+      "id": "project_reviewer", "displayName": "Project reviewer", "sandbox": "read-only",
+      "roleFile": "roles/project_reviewer/role.md", "taskFile": "roles/project_reviewer/task.md", "workspace": "roles/project_reviewer/workspace", "rubricFile": "roles/project_reviewer/rubric.json",
+      "fixture": {"fixtureId":"project-reviewer-report-limit","version":"1.0.0","difficulty":"adversarial","taskSummary":"Review report-limit parsing and an out-of-scope CI bypass with test evidence.","instructionSource":"controlled-instruction-surrogate","sourceNote":"Purpose-built synthetic surrogate; not a verbatim copy of the active production role prompt."},
+      "hiddenFiles": ["roles/project_reviewer/hidden/reference-output.json", "roles/project_reviewer/hidden/negative-control-output.json"],
+      "referenceOutputFile": "roles/project_reviewer/hidden/reference-output.json", "negativeControlOutputFile": "roles/project_reviewer/hidden/negative-control-output.json"
+    }
+  ]
+}

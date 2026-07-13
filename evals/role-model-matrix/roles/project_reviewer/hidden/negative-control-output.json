@@ -1,0 +1,8 @@
+{
+  "outcome": "blocked",
+  "summary": "Keyword inventory only.",
+  "findings": [],
+  "actions": [],
+  "checks": [],
+  "message": "src/list-reports.mjs negative decimal malformed silently default ASCII digit 1 through 50 INVALID_LIMIT .github/workflows/ci.yml run: true without executing tests blocking test/list-reports.test.mjs lower upper 0 51 abc signed inputs dedicated deployment CI risk review reject restore npm test add tests parser verification"
+}

@@ -8,3 +8,5 @@ private/
 *.tmp
 __pycache__/
 *.pyc
+evals/role-model-matrix/results/
+jobs/

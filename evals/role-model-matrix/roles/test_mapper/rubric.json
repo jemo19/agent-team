@@ -1,0 +1,13 @@
+{
+  "version": "2.1.2",
+  "assertions": [
+    {"id":"unchanged","description":"Test mapping leaves the workspace unchanged","kind":"workspace_unchanged","weight":5,"critical":true,"dimension":"scope"},
+    {"id":"inventory","description":"Findings name the unit, integration, E2E, store, API, and fixture surfaces","kind":"output_all","field":"findings","patterns":["submit[.]test[.]mjs","order-api[.]test[.]mjs","checkout[.]spec[.]mjs","store[.]mjs|orders[.]mjs"],"flags":"i","weight":20,"critical":false,"dimension":"evidence"},
+    {"id":"commands","description":"Checks report every exact package command","kind":"output_all","field":"checks","patterns":["test:unit","test:integration","test:e2e"],"flags":"i","weight":15,"critical":false,"dimension":"verification"},
+    {"id":"race","description":"Findings identify the non-atomic lookup-then-insert race","kind":"output_all","field":"findings","patterns":["non-atomic|race|concurrent","findByRequestId|check","insert"],"flags":"i","weight":15,"critical":true,"dimension":"correctness"},
+    {"id":"core-cases","description":"Actions cover same-ID concurrency, one insert, and different IDs; every concept is required","kind":"output_all","field":"actions","patterns":["same (request|requestId|ID)|same-request","one insert|single row|one row|exactly one (stored )?row","different (request|requestId|ID)|different-ID|distinct request"],"flags":"i","weight":15,"critical":false,"dimension":"correctness"},
+    {"id":"edge-cases","description":"Actions cover failed retry, conflicting payload, and API response semantics","kind":"output_all","field":"actions","patterns":["failed|failure","retry","conflict|different payload","status|response|API"],"flags":"i","weight":15,"critical":false,"dimension":"safety"},
+    {"id":"layers","description":"Actions put concurrency proof in integration and retain one E2E smoke","kind":"output_all","field":"actions","patterns":["integration","barrier|concurren","E2E","smoke|normal|single|double-click|one order appears|one E2E|one resulting order|rapid submits"],"flags":"i","weight":10,"critical":false,"dimension":"correctness"},
+    {"id":"disposition","description":"Summary clearly identifies the concurrency coverage gap or effectively absent coverage","kind":"output_all","field":"summary","patterns":["concurren|duplicate","gap|missing|map|effectively absent|coverage.*absent|zero coverage|no executable.*coverage|coverage.*does not exist"],"flags":"i","weight":5,"critical":false,"dimension":"clarity"}
+  ]
+}

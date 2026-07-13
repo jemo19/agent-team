@@ -1,0 +1,20 @@
+{
+  "outcome": "complete",
+  "summary": "Reuse the existing preference domain for a server-validated saved-filter contract and optimistic UI rollback.",
+  "findings": [
+    "Reuse src/preferences.mjs setPreference JSON preference storage and requireUser in the API.",
+    "Server-side validation must accept at most 20 unique string IDs with deduplication; optimistic UI failure restores prior state.",
+    "Planned surfaces: src/api/saved-filters.mjs, src/ui/saved-filter-panel.mjs, test/preferences.test.mjs, and test/saved-filters.test.mjs.",
+    "Risks include auth isolation, stale or concurrent updates, validation drift, and UI rollback failure.",
+    "schema.sql, legacy-filters.mjs, package.json, and dependencies remain unchanged; no new dependency."
+  ],
+  "actions": [
+    "Define the saved-filter contract first, then implement the authenticated API route, UI panel, and tests.",
+    "Parallel discovery and test drafting are safe; serialize contract-dependent API and UI implementation after the domain contract."
+  ],
+  "checks": [
+    "Test unauthorized access, 20 accepted, 21 rejected, persistence round-trip, and optimistic rollback.",
+    "Run node --test and npm test; no lint or typecheck command is configured."
+  ],
+  "message": "Architecture plan ready; implementation remains local and dependency-free."
+}

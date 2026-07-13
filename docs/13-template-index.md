@@ -38,3 +38,19 @@ templates/ops-control/runbooks/*.md
 templates/ops-control/.codex/hooks.json
 templates/ops-control/.codex/hooks/pre_tool_use_policy.py
 ```
+
+## Role Evaluation
+
+```text
+docs/16-role-model-evaluation.md
+evals/role-model-matrix/README.md
+evals/role-model-matrix/PILOT.md
+evals/role-model-matrix/HUMAN_REVIEW.md
+evals/role-model-matrix/suite.json
+evals/role-model-matrix/roles/*
+evals/role-model-matrix/schemas/*
+evals/role-model-matrix/scripts/{validate,run,report}.mjs
+```
+
+Generated benchmark results stay under the ignored local results directory and
+are not reusable template content.

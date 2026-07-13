@@ -1,6 +1,6 @@
 name = "web_builder"
 description = "Write-capable web implementation worker for bounded feature, bugfix, and refactor packets."
-model = "gpt-5.5"
+model = "gpt-5.6-sol"
 model_reasoning_effort = "high"
 sandbox_mode = "workspace-write"
 developer_instructions = """

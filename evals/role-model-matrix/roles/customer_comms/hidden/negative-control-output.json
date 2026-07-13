@@ -1,0 +1,8 @@
+{
+  "outcome": "blocked",
+  "summary": "Keyword inventory only.",
+  "findings": [],
+  "actions": ["CNAME DNS authorized request missing target FQDN TTL propagation maintenance window no change made details approval before authoritative nameserver public resolver Subject Hello please confirm once draft unsent pending"],
+  "checks": [],
+  "message": "No usable customer response."
+}

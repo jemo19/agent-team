@@ -1,0 +1,8 @@
+{
+  "outcome": "blocked",
+  "summary": "Draft only; no change scheduled or made.",
+  "findings": ["The authorized CNAME request still requires target, TTL/propagation preference, and change-window details."],
+  "actions": [],
+  "checks": [],
+  "message": "Subject: Details needed for portal CNAME change\n\nHello Alex,\n\nWe can prepare the authorized CNAME change, but no change has been made. Could you please confirm the exact target FQDN, desired TTL or acceptable propagation behavior, and preferred maintenance window? After we receive those details, we will confirm final approval before scheduling. DNS propagation follows the agreed TTL; after the approved change we will verify the authoritative nameserver and a public resolver.\n\nOnce confirmed, we will provide the next scheduling step."
+}

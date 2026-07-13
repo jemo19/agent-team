@@ -1,0 +1,1 @@
+{"type":"module","scripts":{"test:unit":"node --test test/unit/submit.test.mjs","test:integration":"node --test test/integration/order-api.test.mjs","test:e2e":"playwright test e2e/checkout.spec.mjs"}}

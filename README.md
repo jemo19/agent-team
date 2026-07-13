@@ -6,7 +6,8 @@ than a vendor-neutral agent platform:
 
 - one human operator;
 - Codex CLI as the primary interface;
-- role-routed model effort instead of using maximum reasoning everywhere;
+- role-routed GPT-5.6 models and reasoning effort instead of using the highest
+  effort everywhere;
 - multiple local web application repositories;
 - Linux/server operations with approval gates;
 - MSP-style ticket, maintenance, documentation, triage, and closeout workflows.
@@ -46,6 +47,9 @@ local-agentic-production-team/
     12-copy-paste-prompts.md
     14-project-and-infra-team-map.md
     15-current-state.md
+    16-role-model-evaluation.md
+  evals/
+    role-model-matrix/       # synthetic fixtures, runner, graders, reports
   templates/
     home-codex/              # files intended for ~/.codex and ~/.agents
     web-project/             # files to copy into each web project repo
@@ -109,6 +113,11 @@ Create three durable areas on your workstation:
   linux-server-maintenance/SKILL.md
   infrastructure-as-code-ops/SKILL.md
   msp-ticket-ops/SKILL.md
+
+~/.codex/skills/
+  project-specific local extensions, such as production deploy workflows
+  and specialized UI/project helpers. Keep private hostnames, command
+  allow-lists, and runbook facts in project docs or private notes.
 ```
 
 ## Roles
@@ -124,6 +133,55 @@ investigate, draft, propose, implement in local repos, test, and produce
 evidence. They should not perform privileged production or customer-impacting
 changes without explicit human approval.
 
+## Model routing
+
+The default team uses `gpt-5.6-sol` for root orchestration, builders, planners,
+architects, and reviewers. Read-heavy scouts, test mapping, infrastructure
+reconnaissance, MSP triage, and customer communication use
+`gpt-5.6-terra`. Keep `gpt-5.6-luna` available for future deterministic,
+high-volume batch roles rather than assigning it to nuanced work by default.
+
+Reasoning effort remains role-based: `xhigh` for architecture, planning, and
+risk review; `high` for implementation and infrastructure recon; and `medium`
+for support agents. The current root control uses `gpt-5.6-sol` at `ultra`,
+while interactive Plan mode uses `xhigh`. These are controls to evaluate, not
+assumed winners.
+
+## Role and model evaluation
+
+The versioned evaluation design lives in
+`docs/16-role-model-evaluation.md`; its executable package lives in
+`evals/role-model-matrix/`. Version 1 defines one synthetic
+difficult/adversarial fixture for each of 14 role surfaces and freezes 17
+supported Sol, Terra, and Luna reasoning configurations. A complete screen is
+238 candidate runs before confirmations. The current suite is `1.4.2` with
+harness `1.3.1`. It records indeterminate delegation telemetry as a score
+interval, keeps model-generated commands outside the Codex authentication
+namespace, distinguishes recovered transport warnings from fatal failures, and
+has 69 deterministic regression tests.
+
+The local harness uses the installed `codex exec` client and existing Codex
+authentication, not custom Responses/Evals API request code. Candidate turns
+consume Codex usage; deterministic grading and reports remain local. The
+completed two-cell Ultra smoke-test analysis is in
+`evals/role-model-matrix/PILOT.md`. Calibration v6 human review and offline
+replay under suite `1.4.2` / harness `1.3.1` produce 13 supported passes and
+one supported `customer_comms` failure. The July 12 screen completed all 238
+cells, but human review found pervasive deterministic-grader false negatives
+and a root-orchestration classification anomaly. Preserve it as calibration
+evidence; it does not support a routing change.
+
+A separate public lane under
+`evals/public-benchmarks/terminal-bench-2/` completed an 85-cell,
+17-configuration by five-task Terminal-Bench 2 screen through a host-side
+subscription-authenticated bridge. Results and crash-recovery provenance are
+in `RESULTS-2026-07-12.md`. No OpenAI API key or OpenAI API call was used.
+
+Run static validation and inspect the no-call preview before any billed pilot.
+Raw traces stay in the ignored local results directory. No benchmark result
+changes active routing automatically: hard failures, representative traces,
+repeatability, cost, latency, and human review all belong at the routing gate.
+
 ## Fast start
 
 Read these in order:
@@ -137,6 +195,7 @@ Read these in order:
 7. `docs/07-msp-operations-team.md`
 8. `docs/14-project-and-infra-team-map.md`
 9. `docs/15-current-state.md`
+10. `docs/16-role-model-evaluation.md`
 
 Then copy templates:
 
@@ -153,6 +212,16 @@ cp -R templates/home-codex/skills/* ~/.agents/skills/
 
 `templates/home-codex/rules/default.rules` is the source template. The current
 installed rules file is `~/.codex/rules/agent-team.rules`.
+
+Validate installed skills after copying or editing `SKILL.md` files:
+
+```bash
+for root in ~/.codex/skills ~/.agents/skills /mnt/c/docs/skills; do
+  [ -d "$root" ] && find "$root" -name SKILL.md -printf '%h\n'
+done | sort | while IFS= read -r skill_dir; do
+  python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py "$skill_dir"
+done
+```
 
 Do not blindly copy the sample config over an existing `~/.codex/config.toml` without backing it up.
 

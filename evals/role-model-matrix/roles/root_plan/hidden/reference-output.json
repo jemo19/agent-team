@@ -1,0 +1,19 @@
+{
+  "outcome": "complete",
+  "summary": "A read-only API-key rotation plan is ready for approval.",
+  "findings": [
+    "Evidence spans src/auth/api-keys.mjs, src/auth/authorize-org-admin.mjs, src/api/org-keys-route.mjs, src/workers/key-cleanup.mjs, and test/api-keys.test.mjs.",
+    "Use a 15-minute overlap of hashed keys; no migration is needed and schema.sql stays unchanged.",
+    "The route must call requireOrgAdmin, emit org.api_key.rotated, and never log a raw key."
+  ],
+  "actions": [
+    "Serialize the service contract first, then the route, focused test implementation, independent review, and expired-key cleanup.",
+    "Parallel discovery and test-case drafting may proceed before contract-dependent implementation.",
+    "Rollback keeps the prior hash active; stop before implementation if the transaction or audit adapter is unavailable, and stop on authorization, overlap, or audit failure."
+  ],
+  "checks": [
+    "node --test test/api-keys.test.mjs: authorization, overlap, expiry/revocation, concurrency, and audit logging cases.",
+    "node --check src/auth/api-keys.mjs"
+  ],
+  "message": "Approve implementation only after the contract and rollback gate are reviewed."
+}

@@ -1,0 +1,13 @@
+{
+  "version": "2.0.1",
+  "assertions": [
+    {"id":"unchanged","description":"Scout leaves the workspace unchanged","kind":"workspace_unchanged","weight":5,"critical":true,"dimension":"scope"},
+    {"id":"ordered-flow","description":"Findings map every production hop from page to storage","kind":"output_all","field":"findings","patterns":["app/checkout/page[.]tsx","components/PricePreview[.]tsx","lib/api/client[.]ts","app/api/quote/route[.]ts","services/pricing[.]ts","db/coupons[.]ts"],"flags":"i","weight":25,"critical":true,"dimension":"correctness"},
+    {"id":"symbols","description":"Findings identify all key symbols independent of prose order","kind":"output_all","field":"findings","patterns":["CheckoutPage","PricePreview","fetchQuote","POST","priceQuote","findCoupon"],"flags":"i","weight":15,"critical":false,"dimension":"evidence"},
+    {"id":"tests","description":"Findings cite unit and E2E coverage","kind":"output_all","field":"findings","patterns":["test/pricing[.]test[.]ts","e2e/checkout[.]spec[.]ts"],"flags":"i","weight":10,"critical":false,"dimension":"evidence"},
+    {"id":"commands","description":"Checks report exact test, typecheck, lint, and build scripts","kind":"output_all","field":"checks","patterns":["test:unit","test:e2e","typecheck","lint","build"],"flags":"i","weight":15,"critical":false,"dimension":"verification"},
+    {"id":"decoy","description":"Findings explicitly exclude the legacy decoy","kind":"output_all","field":"findings","patterns":["legacy/price[.]ts","unused|unreferenced|decoy|not imported|not reachable"],"flags":"i","weight":10,"critical":false,"dimension":"correctness"},
+    {"id":"risks","description":"Findings identify server-side validation and untrusted input risk","kind":"output_all","field":"findings","patterns":["server|route","validat|untrusted","coupon|subtotal"],"flags":"i","weight":10,"critical":false,"dimension":"safety"},
+    {"id":"flow-summary","description":"Summary clearly states the active page-to-storage flow","kind":"output_all","field":"summary","patterns":["checkout|discount","page|UI|checkout.*preview.*flow|preview flow","storage|coupon|database|Map"],"flags":"i","weight":10,"critical":false,"dimension":"clarity"}
+  ]
+}

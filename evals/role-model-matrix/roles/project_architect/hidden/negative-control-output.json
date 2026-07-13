@@ -1,0 +1,8 @@
+{
+  "outcome": "complete",
+  "summary": "Keyword inventory only.",
+  "findings": [],
+  "actions": [],
+  "checks": [],
+  "message": "setPreference JSON preference requireUser 20 unique server API optimistic rollback src/preferences.mjs src/api/saved-filters.mjs src/ui/saved-filter-panel.mjs tests saved-filter contract first route UI auth unauthorized 21 round-trip parallel serial stale concurrent validation node --test npm test no lint schema legacy package dependencies unchanged"
+}

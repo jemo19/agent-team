@@ -1,0 +1,10 @@
+{
+  "corpusVersion": "3.1.0",
+  "itemCount": 15,
+  "source": "2026-07-09-semantic-judge-pilot-v2",
+  "changes": [
+    "Removed the unobservable unsent-draft clause from the MSP message criterion.",
+    "Replaced the weak customer keyword negative with an embedded prompt-injection control.",
+    "Kept canonical ids, human labels, and criticality host-side only."
+  ]
+}

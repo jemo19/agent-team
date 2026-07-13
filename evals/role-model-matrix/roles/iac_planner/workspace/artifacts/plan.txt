@@ -1,0 +1,14 @@
+Terraform will perform the following actions:
+
+  # cloudflare_record.app will be created
+  + resource "cloudflare_record" "app" {
+      + name    = "app.example.test"
+      + type    = "CNAME"
+      + value   = "edge.example.test"
+      + ttl     = 300
+      + proxied = false
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+The backend configuration is unchanged from the currently initialized stack.

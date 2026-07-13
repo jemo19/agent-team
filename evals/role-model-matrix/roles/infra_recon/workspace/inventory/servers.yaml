@@ -1,0 +1,16 @@
+servers:
+  - id: demo-web-01
+    status: active
+    os: ubuntu
+    role: web
+    docker: true
+  - id: demo-db-01
+    status: active
+    os: debian
+    role: database
+    service: postgresql
+    docker: false
+  - id: demo-old-01
+    status: retired
+    os: unknown
+    role: former-web

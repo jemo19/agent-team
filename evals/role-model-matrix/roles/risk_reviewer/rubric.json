@@ -1,0 +1,13 @@
+{
+  "version": "2.1.1",
+  "assertions": [
+    {"id":"unchanged","description":"Reviewer leaves the workspace unchanged","kind":"workspace_unchanged","weight":5,"critical":true,"dimension":"scope"},
+    {"id":"idor","description":"Findings identify missing account-membership authorization as blocking","kind":"output_all","field":"findings","patterns":["critical|high|blocking","IDOR|authorization|membership","accountId|src/api/export[.]mjs"],"flags":"i","weight":25,"critical":true,"dimension":"correctness"},
+    {"id":"token-exposure","description":"Findings identify apiToken selection and CSV disclosure","kind":"output_all","field":"findings","patterns":["apiToken","CSV|export","expos|leak|disclos"],"flags":"i","weight":20,"critical":true,"dimension":"correctness"},
+    {"id":"header-logging","description":"Findings identify authorization-header logging risk","kind":"output_all","field":"findings","patterns":["headers?","authorization|bearer|credential","log|logger"],"flags":"i","weight":15,"critical":true,"dimension":"safety"},
+    {"id":"csv-injection","description":"Findings identify spreadsheet formula injection","kind":"output_all","field":"findings","patterns":["CSV|spreadsheet","formula|injection","name|cell|prefix"],"flags":"i","weight":15,"critical":true,"dimension":"safety"},
+    {"id":"tests","description":"Checks require authorization, exact allowed/non-exportable schema, logging, and formula-injection regressions","kind":"output_all","field":"checks","patterns":["unauthor|other account","apiToken|field|allowlist|exact.*(schema|columns)|non-exportable|only name and email","header|log","formula|equals|spreadsheet|literal text|cells? beginning"],"flags":"i","weight":10,"critical":false,"dimension":"verification"},
+    {"id":"evidence","description":"Findings cite exact source paths and line or symbol evidence","kind":"output_all","field":"findings","patterns":["src/api/export[.]mjs","src/csv[.]mjs","line|:[0-9]|exportContacts|toCsv"],"flags":"i","weight":5,"critical":false,"dimension":"evidence"},
+    {"id":"blocking-first","description":"Summary gives an unambiguous blocking review disposition","kind":"output_all","field":"summary","patterns":["block|reject|must fix","security|authorization|export"],"flags":"i","weight":5,"critical":false,"dimension":"clarity"}
+  ]
+}

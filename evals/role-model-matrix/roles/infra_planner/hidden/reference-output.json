@@ -1,0 +1,19 @@
+{
+  "outcome": "blocked",
+  "summary": "The production upgrade plan is blocked pending protection evidence, a maintenance window, and approval.",
+  "findings": [
+    "Red risk: the latest backup is 26 hours old against a 24-hour RPO.",
+    "Red risk: restore evidence is 100 days old against the 90-day policy."
+  ],
+  "actions": [
+    "Serialize protection first: backupctl create --database appdb --label pre-v2; backupctl verify-restore --database appdb --latest.",
+    "After approval, run appctl migrate --database appdb --to v2 --expand-only and verify migration status.",
+    "Deploy one at a time: lbctl drain app1; appctl deploy app1 --image registry.demo.test/app:v2.0.0; curl -fsS https://app1.demo.test/health; enable app1; only after health repeat for app2.",
+    "Application rollback drains the affected target, deploys v1.8.4, verifies health, and re-enables it in the load balancer.",
+    "Database rollback or restore for appdb is a separate approval-gated data-impacting decision."
+  ],
+  "checks": [
+    "Check appctl migration status, instance health, load-balancer target traffic, error-rate/latency metrics, and stop or abort on any failure."
+  ],
+  "message": "Require a confirmed maintenance window, change approval, fresh backup, and successful restore evidence before mutation."
+}

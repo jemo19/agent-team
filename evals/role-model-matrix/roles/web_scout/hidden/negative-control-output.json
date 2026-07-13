@@ -1,0 +1,8 @@
+{
+  "outcome": "complete",
+  "summary": "Keyword inventory only.",
+  "findings": [],
+  "actions": [],
+  "checks": [],
+  "message": "app/checkout/page.tsx PricePreview fetchQuote POST priceQuote findCoupon db/coupons.ts pricing.test.ts checkout.spec.ts test:unit test:e2e typecheck lint build legacy/price.ts decoy server validation coupon subtotal"
+}

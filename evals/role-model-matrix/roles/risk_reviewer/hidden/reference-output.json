@@ -1,0 +1,18 @@
+{
+  "outcome": "complete",
+  "summary": "Block the contact export until authorization and data-exposure defects are fixed.",
+  "findings": [
+    "Critical blocking IDOR in src/api/export.mjs: exportContacts trusts accountId without membership authorization.",
+    "High: src/api/export.mjs selects apiToken and discloses it through the CSV export.",
+    "High: src/api/export.mjs logs request headers, including authorization or bearer credentials.",
+    "High: src/csv.mjs toCsv lacks spreadsheet formula-injection protection for a name cell prefix.",
+    "Exact symbol evidence: exportContacts in src/api/export.mjs and toCsv in src/csv.mjs."
+  ],
+  "actions": [
+    "Require account membership, allowlist name/email, sanitize logs, and neutralize formula-leading cells."
+  ],
+  "checks": [
+    "Test unauthorized other-account access, assert the exact allowed schema is name and email with every non-exportable property excluded, verify authorization-header log redaction, and cover spreadsheet formula cells beginning with equals."
+  ],
+  "message": "Blocking security review findings remain."
+}

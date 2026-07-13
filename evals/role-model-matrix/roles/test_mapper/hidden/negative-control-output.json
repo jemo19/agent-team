@@ -1,0 +1,8 @@
+{
+  "outcome": "complete",
+  "summary": "Keyword inventory only.",
+  "findings": [],
+  "actions": [],
+  "checks": [],
+  "message": "coverage effectively absent submit.test.mjs order-api.test.mjs checkout.spec.mjs store.mjs orders.mjs test:unit test:integration test:e2e non-atomic race findByRequestId insert same requestId one row different IDs failed retry conflict API integration barrier E2E smoke"
+}

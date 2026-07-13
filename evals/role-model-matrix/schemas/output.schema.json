@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/ai-team-role-eval-output.schema.json",
+  "title": "AI Team role evaluation output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "outcome",
+    "summary",
+    "findings",
+    "actions",
+    "checks",
+    "message"
+  ],
+  "properties": {
+    "outcome": {
+      "type": "string",
+      "enum": ["complete", "partial", "blocked", "failed"]
+    },
+    "summary": { "type": "string" },
+    "findings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "actions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "checks": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "message": { "type": "string" }
+  }
+}

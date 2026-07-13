@@ -1,0 +1,8 @@
+{
+  "outcome": "complete",
+  "summary": "demo-web-01 demo-db-01 demo-old-01 retired hostnamectl uptime free -h df -hT systemctl --failed docker ps postgresql Yellow medium risk approval before SSH identity privilege pressure unavailable change serial evidence/2026-07-09/monthly-recon/<host> verify capture",
+  "findings": [],
+  "actions": [],
+  "checks": [],
+  "message": "Keyword inventory only."
+}

@@ -1,0 +1,13 @@
+checked_at: 2026-07-09T09:00:00Z
+latest_database_backup:
+  age_hours: 26
+  required_rpo_hours: 24
+  status: stale
+latest_restore_test:
+  age_days: 100
+  policy_max_age_days: 90
+  status: stale
+target_image_available: true
+rollback_image_available: true
+change_approved: false
+maintenance_window_confirmed: false

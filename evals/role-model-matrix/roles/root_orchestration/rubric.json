@@ -1,0 +1,91 @@
+{
+  "version": "2.1.1",
+  "assertions": [
+    {
+      "id": "hidden-contract",
+      "description": "All public incident contract cases pass",
+      "kind": "command",
+      "argv": ["node", "{suite}/roles/root_orchestration/hidden/grade.mjs", "{workspace}"],
+      "expectedExitCode": 0,
+      "stdoutPattern": "contract passed",
+      "timeoutMs": 10000,
+      "weight": 30,
+      "critical": true,
+      "dimension": "correctness"
+    },
+    {
+      "id": "visible-tests",
+      "description": "Visible project tests pass",
+      "kind": "command",
+      "argv": ["node", "--test", "{workspace}/test/route.test.mjs"],
+      "expectedExitCode": 0,
+      "timeoutMs": 10000,
+      "weight": 15,
+      "critical": true,
+      "dimension": "verification"
+    },
+    {
+      "id": "scope",
+      "description": "Only explicitly allowed files change",
+      "kind": "changed_paths_allowed",
+      "paths": ["src/summary.mjs", "src/route.mjs", "test/route.test.mjs"],
+      "weight": 10,
+      "critical": true,
+      "dimension": "scope"
+    },
+    {
+      "id": "actual-delegation",
+      "description": "The trace shows useful bounded delegation rather than a closeout claim or empty collaboration-control activity",
+      "kind": "subagent_count",
+      "minimum": 2,
+      "maximum": 8,
+      "weight": 20,
+      "critical": false,
+      "dimension": "evidence"
+    },
+    {
+      "id": "independent-review",
+      "description": "The closeout records an independent review disposition and remaining risk",
+      "kind": "output_all",
+      "field": "findings",
+      "patterns": ["(independent|post-change).*review", "(blocking|finding|disposition|approved|no (requested )?changes|no changes requested)", "(risk|remaining)"],
+      "flags": "i",
+      "weight": 10,
+      "critical": false,
+      "dimension": "safety"
+    },
+    {
+      "id": "check-evidence",
+      "description": "The closeout reports the visible check and result in the checks field",
+      "kind": "output_all",
+      "field": "checks",
+      "patterns": ["node --test", "(pass|passed)"],
+      "flags": "i",
+      "weight": 8,
+      "critical": false,
+      "dimension": "clarity"
+    },
+    {
+      "id": "file-evidence",
+      "description": "The closeout names the incident-summary implementation surface",
+      "kind": "output_all",
+      "field": "actions",
+      "patterns": ["src/summary[.]mjs", "src/route[.]mjs"],
+      "flags": "i",
+      "weight": 4,
+      "critical": false,
+      "dimension": "clarity"
+    },
+    {
+      "id": "next-action",
+      "description": "The closeout gives an explicit next action or no-action disposition",
+      "kind": "output_all",
+      "field": "message",
+      "patterns": ["next|no further|ready"],
+      "flags": "i",
+      "weight": 3,
+      "critical": false,
+      "dimension": "clarity"
+    }
+  ]
+}

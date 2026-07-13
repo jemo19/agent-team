@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "verdict",
+    "evidenceField",
+    "evidenceIndex",
+    "evidenceExcerpt",
+    "rationale"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^item-[0-9a-f]{24}$"
+    },
+    "verdict": {
+      "enum": ["pass", "fail", "indeterminate"]
+    },
+    "evidenceField": {
+      "type": ["string", "null"]
+    },
+    "evidenceIndex": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "evidenceExcerpt": {
+      "type": ["string", "null"],
+      "maxLength": 300
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 600
+    }
+  }
+}

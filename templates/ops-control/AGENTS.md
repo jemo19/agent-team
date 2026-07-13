@@ -10,6 +10,10 @@ This repo is for managing three Linux servers and small-MSP customer operations.
 - Use evidence files for all non-trivial work.
 - Do not store secrets in this repo.
 - Do not run SSH or mutating commands without explicit approval.
+- Use bounded read-only subagents for planning, inventory review, docs lookup,
+  ticket triage, and independent review when useful.
+- After consolidating useful results from a completed subagent, close that agent
+  thread so stale agents do not exhaust the thread cap.
 
 ## Risk classes
 

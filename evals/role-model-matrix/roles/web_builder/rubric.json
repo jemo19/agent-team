@@ -1,0 +1,12 @@
+{
+  "version": "2.0.0",
+  "assertions": [
+    {"id":"hidden-contract","description":"Parser passes the adversarial hidden matrix","kind":"command","argv":["node","{suite}/roles/web_builder/hidden/grade.mjs","{workspace}"],"expectedExitCode":0,"stdoutPattern":"contract passed","timeoutMs":10000,"weight":45,"critical":true,"dimension":"correctness"},
+    {"id":"visible-tests","description":"Visible tests pass","kind":"command","argv":["node","--test","{workspace}/test/pagination.test.mjs"],"expectedExitCode":0,"timeoutMs":10000,"weight":15,"critical":true,"dimension":"verification"},
+    {"id":"scope","description":"Only parser and its test may change","kind":"changed_paths_allowed","paths":["src/pagination.mjs","test/pagination.test.mjs"],"weight":10,"critical":true,"dimension":"scope"},
+    {"id":"regression-tests","description":"Tests include malformed and range coverage without depending on source order","kind":"output_all","field":"checks","patterns":["(malformed|INVALID_PAGE_SIZE)","(range|PAGE_SIZE_OUT_OF_RANGE)","(pass|passed)"],"flags":"i","weight":10,"critical":false,"dimension":"evidence"},
+    {"id":"error-codes","description":"Implementation uses both required error codes","kind":"file_regex","path":"src/pagination.mjs","pattern":"(?=[\\s\\S]*INVALID_PAGE_SIZE)(?=[\\s\\S]*PAGE_SIZE_OUT_OF_RANGE)","flags":"","weight":5,"critical":false,"dimension":"correctness"},
+    {"id":"package-unchanged","description":"Dependency metadata remains unchanged","kind":"changed_paths_allowed","paths":["src/pagination.mjs","test/pagination.test.mjs"],"weight":5,"critical":true,"dimension":"safety"},
+    {"id":"closeout","description":"Closeout identifies the parser and focused-test disposition","kind":"output_all","field":"actions","patterns":["src/pagination[.]mjs","test/pagination[.]test[.]mjs|test.*unchanged|no test.*change"],"flags":"i","weight":10,"critical":false,"dimension":"clarity"}
+  ]
+}

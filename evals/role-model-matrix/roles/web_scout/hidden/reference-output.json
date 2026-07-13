@@ -1,0 +1,13 @@
+{
+  "outcome": "complete",
+  "summary": "The active discount flow runs from the checkout page and UI through the quote route to coupon storage.",
+  "findings": [
+    "Ordered flow: app/checkout/page.tsx CheckoutPage -> components/PricePreview.tsx PricePreview -> lib/api/client.ts fetchQuote -> app/api/quote/route.ts POST -> services/pricing.ts priceQuote -> db/coupons.ts findCoupon.",
+    "Coverage exists in test/pricing.test.ts and e2e/checkout.spec.ts.",
+    "legacy/price.ts is an unused decoy that is not imported by the active flow.",
+    "The server route must validate untrusted coupon and subtotal input."
+  ],
+  "actions": [],
+  "checks": ["npm run test:unit", "npm run test:e2e", "npm run typecheck", "npm run lint", "npm run build"],
+  "message": "Read-only mapping complete."
+}

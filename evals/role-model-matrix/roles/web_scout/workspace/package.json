@@ -1,0 +1,1 @@
+{"scripts":{"test:unit":"vitest run test/pricing.test.ts","test:e2e":"playwright test e2e/checkout.spec.ts","typecheck":"tsc --noEmit","lint":"eslint .","build":"next build"}}

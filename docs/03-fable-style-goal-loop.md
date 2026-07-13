@@ -92,6 +92,8 @@ A good plan has enough detail that a fresh worker agent can execute a packet wit
 
 Use subagents by default for non-trivial work once the plan identifies independent work packets. The standing authorization covers read-only scouts, reviewers, test mappers, docs lookups, and other bounded sidecar tasks; it is not a per-task user approval gate.
 
+Close completed subagent threads after their useful findings have been consolidated into the main thread. Completed agents are disposable; leaving them open can exhaust the active thread cap and block later scouting.
+
 ### Common invocation pattern
 
 ```text
@@ -101,7 +103,7 @@ Spawn these subagents in parallel and wait for all results:
 2. test_mapper: identify existing tests and missing tests. Read-only. Return exact commands and suggested test cases.
 3. risk_reviewer: inspect for security, data integrity, auth, performance, and maintainability risks. Read-only.
 
-Do not let subagents edit files. Consolidate their findings into a single plan before implementation.
+Do not let subagents edit files. Consolidate their findings into a single plan before implementation, then close the completed scout threads.
 ```
 
 ### When to invoke write-capable workers

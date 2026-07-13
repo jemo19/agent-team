@@ -1,0 +1,16 @@
+{
+  "outcome": "complete",
+  "summary": "Duplicate-order concurrency coverage is effectively absent; the primary gap belongs in integration coverage, with focused unit cases and one E2E smoke.",
+  "findings": [
+    "The non-atomic race is findByRequestId followed by insert in the submit path.",
+    "Relevant surfaces are test/unit/submit.test.mjs, test/integration/order-api.test.mjs, e2e/checkout.spec.mjs, src/orders/store.mjs, src/api/orders.mjs, and test/fixtures/orders.mjs."
+  ],
+  "actions": [
+    "Integration: synchronize same requestId submissions with a barrier and prove one insert and one row.",
+    "Integration: concurrent different request IDs both succeed.",
+    "Unit/integration: failed insertion retry succeeds, conflicting payload returns the defined API response/status, and retry semantics remain deterministic.",
+    "E2E: retain one normal duplicate-submit smoke; do not use E2E as the concurrency proof."
+  ],
+  "checks": ["npm run test:unit", "npm run test:integration", "npm run test:e2e"],
+  "message": "Read-only test map complete."
+}

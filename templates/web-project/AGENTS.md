@@ -51,7 +51,12 @@ Replace placeholders before serious use.
 Use:
 
 ```text
-GOAL -> PLAN -> READ-ONLY SCOUTS -> IMPLEMENT -> CHECK -> REVIEW -> SUMMARY
+GOAL -> PLAN -> INVOKE SUBAGENTS -> EXECUTE -> CHECK -> REVIEW -> HUMAN GATE -> RECORD EVIDENCE
 ```
 
 For non-trivial work, create a goal file in `.agentic/goals/`.
+
+- Subagents may be used by default for bounded read-only scouting, test mapping,
+  docs lookup, and independent review when they reduce wall-clock time.
+- After consolidating useful results from a completed subagent, close that agent
+  thread so stale agents do not exhaust the thread cap.

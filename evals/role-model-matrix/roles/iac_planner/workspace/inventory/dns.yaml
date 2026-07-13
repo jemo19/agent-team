@@ -1,0 +1,9 @@
+zone_id: zone-demo
+records:
+  - id: demo-record-17
+    name: app.example.test
+    type: CNAME
+    value: edge.example.test
+    ttl: 600
+    proxied: false
+    managed_by: manual-legacy

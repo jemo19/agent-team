@@ -1,0 +1,19 @@
+{
+  "outcome": "complete",
+  "summary": "The record already exists live but is missing from Terraform state, so reconcile it with an approved import.",
+  "findings": [
+    "The existing record already exists in inventory; the state evidence has no cloudflare_record.app binding, so the create plan risks a duplicate.",
+    "Preserve terraform state pull as state-before-import.json; the backend is unchanged and no configuration change is needed."
+  ],
+  "actions": [
+    "Sequence: terraform fmt -check; terraform validate; (umask 077 && terraform plan -lock=true -lock-timeout=5m -out=pre-import.tfplan); terraform state pull > state-before-import.json.",
+    "After import approval: terraform import -lock=true -lock-timeout=5m cloudflare_record.app zone-demo/demo-record-17.",
+    "Then run (umask 077 && terraform plan -lock=true -lock-timeout=5m -out=post-import.tfplan); apply requires a separate second approval.",
+    "Rollback after approval with terraform state rm cloudflare_record.app for a wrong association, or set TTL back to 600 and review a new non-destructive plan."
+  ],
+  "checks": [
+    "Expect an in-place TTL-only change from 600 to 300 with no create/destroy.",
+    "After approved apply, verify the authoritative nameserver and a public resolver such as 1.1.1.1."
+  ],
+  "message": "Next gate: approve only the import after state backup and plan review; apply remains separately gated."
+}

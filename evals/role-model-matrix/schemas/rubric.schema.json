@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "assertions"],
+  "properties": {
+    "version": { "type": "string", "minLength": 1 },
+    "assertions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "description", "kind", "weight", "critical", "dimension"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]*$" },
+          "description": { "type": "string", "minLength": 1 },
+          "kind": {
+            "enum": [
+              "output_regex",
+              "output_absent_regex",
+              "output_all",
+              "subagent_count",
+              "workspace_unchanged",
+              "changed_paths_allowed",
+              "file_regex",
+              "command"
+            ]
+          },
+          "weight": { "type": "number", "exclusiveMinimum": 0, "maximum": 100 },
+          "critical": { "type": "boolean" },
+          "dimension": { "enum": ["correctness", "evidence", "safety", "verification", "scope", "clarity"] },
+          "pattern": { "type": "string" },
+          "field": { "enum": ["outcome", "summary", "findings", "actions", "checks", "message"] },
+          "fields": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "enum": ["outcome", "summary", "findings", "actions", "checks", "message"] }
+          },
+          "patterns": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+          "absentPatterns": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+          "normalizers": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "enum": ["unicode-punctuation", "hyphen-as-space"] }
+          },
+          "flags": { "type": "string" },
+          "minimum": { "type": "integer", "minimum": 0 },
+          "maximum": { "type": "integer", "minimum": 0 },
+          "paths": { "type": "array", "items": { "type": "string" } },
+          "path": { "type": "string" },
+          "argv": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+          "cwd": { "type": "string" },
+          "expectedExitCode": { "type": "integer" },
+          "stdoutPattern": { "type": "string" },
+          "stderrPattern": { "type": "string" },
+          "timeoutMs": { "type": "integer", "minimum": 1 }
+        },
+        "allOf": [
+          {
+            "if": { "properties": { "kind": { "const": "output_all" } }, "required": ["kind"] },
+            "then": {
+              "oneOf": [
+                { "required": ["field"], "not": { "required": ["fields"] } },
+                { "required": ["fields"], "not": { "required": ["field"] } }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

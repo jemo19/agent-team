@@ -1,0 +1,1 @@
+run_id,case_id,blind_packet_id,role_id,fixture_id,reviewer,reviewed_at,disposition,primary_failure_code,secondary_failure_codes,correctness_0_4,evidence_0_4,safety_0_4,verification_0_4,scope_0_4,clarity_0_4,true_positives,false_positives,duplicates,severity_errors,critical_gold_found,critical_gold_total,preferred_in_pair,pair_id,notes

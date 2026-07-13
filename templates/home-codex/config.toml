@@ -1,7 +1,7 @@
 # Personal Codex config for local agentic production team.
 # Review against your installed Codex version before replacing an existing file.
 
-model = "gpt-5.5"
+model = "gpt-5.6-sol"
 model_reasoning_effort = "xhigh"
 sandbox_mode = "workspace-write"
 approval_policy = "on-request"

@@ -1,0 +1,19 @@
+environment: production
+load_balancer: lb01
+database:
+  host: db01
+  engine: postgresql
+  database: appdb
+application:
+  current_image: registry.demo.test/app:v1.8.4
+  target_image: registry.demo.test/app:v2.0.0
+  rollback_image_available: true
+  instances:
+    - app1
+    - app2
+  traffic: behind-lb01
+migration:
+  release: v2
+  kind: expand-only
+  new_columns_nullable: true
+  old_application_compatible: true

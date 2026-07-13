@@ -1,0 +1,17 @@
+{
+  "outcome": "blocked",
+  "summary": "Block the parser and CI changes: limit semantics are wrong and verification was disabled.",
+  "findings": [
+    "Blocking high at src/list-reports.mjs parseReportLimit: Number accepts negative -1 and decimal 1.5, while malformed abc silently defaults.",
+    "The contract requires TypeError code INVALID_LIMIT for prohibited values.",
+    "Critical: .github/workflows/ci.yml changes run: true, so CI succeeds without executing any tests."
+  ],
+  "actions": [
+    "Reject invalid input with INVALID_LIMIT; require ASCII digit strings from 1 through 50, restore npm test in CI, and add focused regression tests.",
+    "Request a dedicated CI deployment risk review before accepting workflow changes."
+  ],
+  "checks": [
+    "In test/list-reports.test.mjs cover lower bound 1, upper bound 50, out-of-range 0 and 51, malformed abc, decimal 1.5, and signed inputs such as -1."
+  ],
+  "message": "Review disposition: changes requested."
+}

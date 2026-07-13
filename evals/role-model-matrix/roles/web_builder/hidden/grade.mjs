@@ -1,0 +1,10 @@
+import assert from "node:assert/strict";
+import path from "node:path";
+import { pathToFileURL } from "node:url";
+const workspace = process.argv[2];
+const { parsePageSize } = await import(pathToFileURL(path.join(workspace, "src/pagination.mjs")).href + `?v=${Date.now()}`);
+for (const value of [undefined, null, ""]) assert.equal(parsePageSize(value), 25);
+for (const [raw, expected] of [["1",1],["25",25],["100",100],["01",1]]) assert.equal(parsePageSize(raw), expected);
+for (const raw of ["0","101","999"]) assert.throws(() => parsePageSize(raw), (error) => error instanceof RangeError && error.code === "PAGE_SIZE_OUT_OF_RANGE");
+for (const raw of ["10abc"," 10 ","1.5","+2","-2",10,{},"０１"]) assert.throws(() => parsePageSize(raw), (error) => error instanceof TypeError && error.code === "INVALID_PAGE_SIZE");
+console.log("pagination contract passed");

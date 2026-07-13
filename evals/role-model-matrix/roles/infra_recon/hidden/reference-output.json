@@ -1,0 +1,19 @@
+{
+  "outcome": "complete",
+  "summary": "A serialized, read-only monthly reconnaissance plan is ready for approval.",
+  "findings": [
+    "Active targets: demo-web-01 and demo-db-01. demo-old-01 is retired and must be excluded.",
+    "Stop on identity mismatch, unexpected privilege need, resource pressure, an unavailable command, or any required change."
+  ],
+  "actions": [
+    "Run one host at a time and write evidence under evidence/2026-07-09/monthly-recon/<host>/.",
+    "For each host: hostnamectl, uptime, free -h, df -hT, and systemctl --failed --no-pager.",
+    "On demo-web-01 only, collect docker ps output.",
+    "On demo-db-01 only, collect systemctl is-active postgresql output."
+  ],
+  "checks": [
+    "Confirm hostname identity before continuing and record expected host-role evidence.",
+    "Verify each capture is present in the dated evidence directory."
+  ],
+  "message": "Risk: Yellow/medium. Obtain explicit approval before SSH."
+}

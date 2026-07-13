@@ -1,6 +1,6 @@
 name = "web_scout"
 description = "Read-only web codebase scout. Maps entry points, files, tests, data flow, and conventions before implementation."
-model = "gpt-5.5"
+model = "gpt-5.6-terra"
 model_reasoning_effort = "medium"
 sandbox_mode = "read-only"
 developer_instructions = """

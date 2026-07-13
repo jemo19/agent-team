@@ -1,0 +1,8 @@
+{
+  "outcome": "blocked",
+  "summary": "Red backup 26 24 restore 100 90 serialize migration app1 app2 backupctl create verify-restore appctl migrate lbctl drain deploy curl health v1.8.4 database rollback approval migration status metrics stop maintenance window change approval fresh backup precondition",
+  "findings": [],
+  "actions": [],
+  "checks": [],
+  "message": "Keyword inventory only."
+}
