@@ -15,14 +15,15 @@ infrastructure/
   modules/
 ```
 
-Allowed without extra approval:
+Routine preparation:
 
 - Read existing `.tf` files.
 - Run `terraform fmt -check` or `tofu fmt -check`.
 - Run `terraform validate` or `tofu validate`.
 - Prepare a plan command for review.
 
-Requires explicit approval:
+Requires exact target, reviewed plan/state safety, rollback, verification, and
+an objective that includes mutation; no second operator prompt is added:
 
 - `terraform apply` / `tofu apply`
 - `terraform destroy` / `tofu destroy`

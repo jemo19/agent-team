@@ -1,18 +1,26 @@
 # Personal Codex config for local agentic production team.
 # Review against your installed Codex version before replacing an existing file.
 
-model = "gpt-5.6-sol"
-model_reasoning_effort = "xhigh"
-sandbox_mode = "workspace-write"
-approval_policy = "on-request"
+model = "gpt-6-astra"
+model_reasoning_effort = "low"
+service_tier = "default"
+sandbox_mode = "danger-full-access"
+approval_policy = "never"
 
 [agents]
-max_threads = 6
-max_depth = 1
-job_max_runtime_seconds = 1800
-
-[sandbox_workspace_write]
-network_access = false
+enabled = true
+max_concurrent_threads_per_session = 2
+default_subagent_model = "gpt-5.6-sol"
+default_subagent_reasoning_effort = "low"
 
 [features]
 hooks = true
+
+# Expose named-role selection in native CLI/app-server V2 dispatch.
+[features.multi_agent_v2]
+hide_spawn_agent_metadata = false
+
+[apps._default]
+default_tools_approval_mode = "approve"
+destructive_enabled = true
+open_world_enabled = true

@@ -1,0 +1,82 @@
+{
+  "skill_name": "web-project-delivery",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "In this Next/React app, the mobile account menu opens behind the page overlay. Reproduce it locally, fix the UI bug, and verify it in the browser.",
+      "expected_output": "Implicitly select the skill for local web implementation, trace the menu/overlay owner, preserve unrelated behavior, and use browser evidence.",
+      "files": [],
+      "expectations": ["Should trigger", "Bug evidence before editing", "Browser verification"]
+    },
+    {
+      "id": 2,
+      "prompt": "Add a GET /api/projects/:id/activity endpoint to this web app, including validation, authorization, and targeted tests.",
+      "expected_output": "Implicitly select the skill for API implementation, trace handler/service/data ownership, and validate success, error, and authorization paths.",
+      "files": [],
+      "expectations": ["Should trigger", "API ownership traced", "Contract tests"]
+    },
+    {
+      "id": 3,
+      "prompt": "Add a saved-filter feature to the dashboard across the React form, server action, and existing data-access layer.",
+      "expected_output": "Implicitly select the skill for a bounded cross-layer feature and verify every changed boundary.",
+      "files": [],
+      "expectations": ["Should trigger", "Cross-layer ownership", "Small coherent diff"]
+    },
+    {
+      "id": 4,
+      "prompt": "Refactor the web app's duplicate pagination parsing into the existing shared module without changing URL or API behavior, and prove behavior is preserved.",
+      "expected_output": "Implicitly select the skill for a bounded behavior-preserving web refactor with characterization evidence.",
+      "files": [],
+      "expectations": ["Should trigger", "Existing ownership/pattern", "Behavior-preservation checks"]
+    },
+    {
+      "id": 5,
+      "prompt": "Review this pull request and list blocking findings.",
+      "expected_output": "Do not trigger; route to native review or a reviewer workflow.",
+      "files": [],
+      "expectations": ["Should not trigger", "No implementation workflow"]
+    },
+    {
+      "id": 6,
+      "prompt": "Explain how React state batching works.",
+      "expected_output": "Do not trigger; answer the general web-development question directly.",
+      "files": [],
+      "expectations": ["Should not trigger"]
+    },
+    {
+      "id": 7,
+      "prompt": "Deploy this site to production.",
+      "expected_output": "Do not trigger; deployment is outside the skill.",
+      "files": [],
+      "expectations": ["Should not trigger", "No deployment action"]
+    },
+    {
+      "id": 8,
+      "prompt": "Update Terraform for the web host.",
+      "expected_output": "Do not trigger; route to infrastructure-as-code workflow.",
+      "files": [],
+      "expectations": ["Should not trigger"]
+    },
+    {
+      "id": 9,
+      "prompt": "Write new landing-page copy for our spring campaign.",
+      "expected_output": "Do not trigger; content-only work is outside the skill.",
+      "files": [],
+      "expectations": ["Should not trigger"]
+    },
+    {
+      "id": 10,
+      "prompt": "Fix the spelling of 'recieve' in this button label.",
+      "expected_output": "Do not trigger; use normal repository instructions for the trivial edit.",
+      "files": [],
+      "expectations": ["Should not trigger", "No orchestration overhead"]
+    },
+    {
+      "id": 11,
+      "prompt": "Design an architecture for a multi-tenant React application, but do not implement anything.",
+      "expected_output": "Do not trigger; this is architecture/planning without local implementation.",
+      "files": [],
+      "expectations": ["Should not trigger"]
+    }
+  ]
+}

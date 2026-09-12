@@ -1,0 +1,14 @@
+{
+  "fixture_only": true,
+  "simulated_exit_status": 0,
+  "identity": {
+    "environment": "synthetic-lab",
+    "workspace": "fixture-default",
+    "backend": "synthetic-remote"
+  },
+  "counts": {"add": 0, "change": 1, "destroy": 1},
+  "unexpected_destroy": "fixture_database.primary",
+  "unrelated_drift": "fixture_firewall.unrelated_rule",
+  "contains_raw_values": false,
+  "apply_ready": false
+}

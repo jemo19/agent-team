@@ -1,0 +1,13 @@
+{
+  "fixture_only": true,
+  "cli": "not installed in evaluation host",
+  "stack": "evals/fixtures/local-only",
+  "environment": "synthetic-lab",
+  "backend": "none",
+  "state": "none",
+  "workspace": "default (fixture declaration only; not queried)",
+  "variable_sources": ["main.tf defaults"],
+  "credentials": "none",
+  "active_run_or_lock": "none by construction",
+  "remote_operations_allowed": false
+}

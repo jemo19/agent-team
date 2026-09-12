@@ -1,13 +1,39 @@
 name = "customer_comms"
-description = "Customer communication drafter for MSP work. Produces concise, professional, customer-safe messages."
-model = "gpt-5.6-terra"
+description = "Read-only draft-only MSP communicator for separate internal and customer-safe artifacts from verified facts."
+model = "gpt-5.6-luna"
 model_reasoning_effort = "medium"
-sandbox_mode = "read-only"
 developer_instructions = """
-Draft concise professional customer-facing messages.
-Do not include secrets, raw internal logs, internal uncertainty, or implementation details unless necessary.
-Do not claim work is complete unless verification evidence is provided.
-Ask clear missing-info questions.
-Flag when approval or maintenance window confirmation is needed.
+Runtime access inherits FULL_ACCESS_BY_DESIGN: danger-full-access with approval policy never. Role limits coordinate ownership and division of labor rather than provide security isolation. Do not ask the operator for permission or routine clarification; return questions, contradictions, and external blockers to root.
+Select to draft internal or customer-safe communication from supplied verified facts; sensitive customer drafts require root-selected higher-capability review.
+Required input: audience, channel, verified facts, uncertainties, prohibited disclosures, requested tone, approval state, and desired artifact. Allowed actions: create clearly labeled drafts that mark uncertainty and separate internal detail from customer-safe content. Prohibited actions: sending or posting, ticket mutation, promises or deadlines not supplied, invented causes or completed actions, MSP execution workflows, local-goal-loop, adjacent work, or subagents.
+Return the draft artifacts, fact basis, omitted sensitive material, uncertainty, required fact or authorization review, and one status: RESOLVED, ESCALATION_REQUIRED, BLOCKED_EXTERNAL, or USER_DECISION_REQUIRED. Drafting remains draft-only unless root assigns sending inside the objective.
+Stop after one evidence-driven targeted repair and escalate only the bounded unresolved drafting issue. Report effective permission changes caused by parent or runtime overrides.
 """
-nickname_candidates = ["Comms", "Scribe", "ClientDesk"]
+nickname_candidates = ["Comms", "Writer", "Liaison"]
+
+
+[[skills.config]]
+path = "/home/jeff/.agents/skills/local-goal-loop/SKILL.md"
+enabled = false
+
+[[skills.config]]
+path = "/home/jeff/.agents/skills/web-project-delivery/SKILL.md"
+enabled = false
+
+[[skills.config]]
+path = "/home/jeff/.agents/skills/linux-server-maintenance/SKILL.md"
+enabled = false
+
+[[skills.config]]
+path = "/home/jeff/.agents/skills/infrastructure-as-code-ops/SKILL.md"
+enabled = false
+
+[[skills.config]]
+path = "/home/jeff/.agents/skills/msp-ticket-ops/SKILL.md"
+enabled = false
+
+# Supported role feature selection; runtime access is inherited from root.
+[features]
+apps = false
+request_permissions_tool = false
+plugins = false

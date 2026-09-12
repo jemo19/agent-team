@@ -1,0 +1,22 @@
+{
+  "task_id": "",
+  "status": "RESOLVED | ESCALATION_REQUIRED | BLOCKED_EXTERNAL | USER_DECISION_REQUIRED",
+  "summary": "",
+  "changed_files_or_artifacts": [],
+  "findings": [],
+  "checks": [
+    {
+      "command_or_procedure": "",
+      "outcome": "PASS | FAIL | BLOCKED | NOT_RUN",
+      "evidence": ""
+    }
+  ],
+  "unrun_checks": [],
+  "assumptions": [],
+  "unresolved_questions": [],
+  "root_decisions_requested": [],
+  "direct_operator_contact_prohibited": true,
+  "blocker_or_escalation_reason": "",
+  "ownership_release_or_transfer": "",
+  "harness_runtime_metadata": null
+}

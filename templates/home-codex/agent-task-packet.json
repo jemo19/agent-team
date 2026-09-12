@@ -1,0 +1,34 @@
+{
+  "task_id": "",
+  "parent_id": "",
+  "objective": "",
+  "objective_authority": "Assigned objective authorizes all necessary in-scope actions; do not request routine approval.",
+  "permission_mode": "FULL_ACCESS_BY_DESIGN",
+  "questions_route": "root",
+  "acceptance_criteria": [],
+  "source_of_truth": "",
+  "revision_or_snapshot": "",
+  "read_scope": [],
+  "write_scope": [],
+  "allowed_tools_and_actions": [],
+  "prohibited_actions": [],
+  "inputs": [],
+  "evidence_locations": [],
+  "dependencies": [],
+  "resource_ownership": {
+    "owner": "",
+    "resources": []
+  },
+  "requested_model_and_effort": {
+    "model": "",
+    "effort": ""
+  },
+  "required_checks": [],
+  "attempt_budget": {
+    "targeted_repairs_per_configuration": 1,
+    "total_upward_promotions": 2,
+    "used_promotions": 0
+  },
+  "escalation_conditions": [],
+  "expected_output": ""
+}

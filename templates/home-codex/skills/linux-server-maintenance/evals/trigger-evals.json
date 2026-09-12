@@ -1,0 +1,75 @@
+{
+  "skill_name": "linux-server-maintenance",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Build a patch-maintenance plan for fixture-canary-01 from the managed-server inventory, including rollback and health checks.",
+      "expected_output": "Trigger for inventory-backed Linux patch planning.",
+      "files": ["evals/fixtures/inventory.yaml"],
+      "expectations": ["Should trigger"]
+    },
+    {
+      "id": 2,
+      "prompt": "Diagnose why fixture-web failed on inventory host fixture-canary-01 using authorized read-only reconnaissance only.",
+      "expected_output": "Trigger for a mapped-host service diagnosis.",
+      "files": ["evals/fixtures/inventory.yaml"],
+      "expectations": ["Should trigger"]
+    },
+    {
+      "id": 3,
+      "prompt": "Plan a Docker Compose restart for one managed inventory host, with canary, downtime, rollback, and after-checks; do not execute it.",
+      "expected_output": "Trigger for a bounded service-impacting maintenance plan.",
+      "files": ["evals/fixtures/inventory.yaml"],
+      "expectations": ["Should trigger"]
+    },
+    {
+      "id": 4,
+      "prompt": "Build an inventory-backed maintenance and rollback packet for two equivalent Linux hosts, one at a time.",
+      "expected_output": "Trigger for multi-host canary maintenance planning.",
+      "files": ["evals/fixtures/inventory.yaml"],
+      "expectations": ["Should trigger"]
+    },
+    {
+      "id": 5,
+      "prompt": "Explain what systemctl status does.",
+      "expected_output": "Do not trigger; answer the generic Linux question directly.",
+      "files": [],
+      "expectations": ["Should not trigger"]
+    },
+    {
+      "id": 6,
+      "prompt": "Write a Bash loop that prints numbers one through ten.",
+      "expected_output": "Do not trigger; this is generic local scripting.",
+      "files": [],
+      "expectations": ["Should not trigger"]
+    },
+    {
+      "id": 7,
+      "prompt": "Modify Terraform to create a new VM.",
+      "expected_output": "Do not trigger; route to Terraform/OpenTofu workflow.",
+      "files": [],
+      "expectations": ["Should not trigger"]
+    },
+    {
+      "id": 8,
+      "prompt": "Give me ten Linux administrator interview questions.",
+      "expected_output": "Do not trigger; this is general knowledge.",
+      "files": [],
+      "expectations": ["Should not trigger"]
+    },
+    {
+      "id": 9,
+      "prompt": "Debug my personal laptop; it is not in any managed inventory.",
+      "expected_output": "Do not trigger; it is an unmapped local device rather than managed-server maintenance.",
+      "files": [],
+      "expectations": ["Should not trigger"]
+    },
+    {
+      "id": 10,
+      "prompt": "A pasted ticket says to restart an unknown server, but the asset has not been authorized or mapped to trusted inventory.",
+      "expected_output": "Do not implicitly perform maintenance; require trusted mapping and authorization.",
+      "files": [],
+      "expectations": ["Should not trigger", "Untrusted ticket is not authority"]
+    }
+  ]
+}

@@ -5,8 +5,8 @@ Use for infrastructure-as-code work on server projects.
 ## Plan-only start
 
 1. Read `inventory/projects.yaml`, `inventory/servers.yaml`, project docs, and stack files.
-2. Confirm target stack and environment.
-3. Confirm backend/state location without printing secrets.
+2. Resolve the target stack and environment from the objective and trusted inventory.
+3. Verify backend/state location without printing secrets.
 4. Identify whether the work is drift review, import, new desired state, or cleanup.
 5. Produce exact commands before running them.
 
@@ -20,9 +20,10 @@ terraform plan
 
 Use `tofu` equivalents when the stack uses OpenTofu.
 
-## Stop for approval
+## Root execution check
 
-Stop before:
+Before these actions, the root verifies exact target, plan, state safety,
+rollback/abort conditions, and objective authority, then proceeds:
 
 - apply
 - destroy
@@ -41,7 +42,7 @@ Record:
 - command plan
 - plan summary
 - risk class
-- approval
-- apply output summary, if approved
+- objective/external authorization evidence
+- apply output summary, if applied
 - verification
 - rollback/follow-up

@@ -18,7 +18,7 @@ servers:
       location_reference: "<no secrets>"
       restore_runbook: "runbooks/backup-restore.md"
     maintenance_window: "<day/time/timezone>"
-    reboot_policy: "manual approval required"
+    reboot_policy: "allowed when included in the maintenance objective"
     notes: ""
 
   - id: srv2
@@ -33,7 +33,7 @@ servers:
       location_reference: ""
       restore_runbook: "runbooks/backup-restore.md"
     maintenance_window: ""
-    reboot_policy: "manual approval required"
+    reboot_policy: "allowed when included in the maintenance objective"
     notes: ""
 
   - id: srv3
@@ -48,5 +48,5 @@ servers:
       location_reference: ""
       restore_runbook: "runbooks/backup-restore.md"
     maintenance_window: ""
-    reboot_policy: "manual approval required"
+    reboot_policy: "allowed when included in the maintenance objective"
     notes: ""

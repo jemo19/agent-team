@@ -2,46 +2,89 @@
 
 ## Global config principles
 
-Your global Codex config should make the safe path easy:
+The installed user layer owns the root model, child fallback, thread ceiling,
+and the one canonical copy of each stable agent. Project config owns only
+project behavior such as notes write roots and the same two-thread ceiling.
+Project `AGENTS.md` owns repository-specific constraints.
 
-- `workspace-write` for normal coding.
-- `on-request` approvals.
-- Network off by default.
-- Max subagent depth `1`.
-- Thread cap around `6`.
-- Custom agents with read-only defaults for scouts/reviewers.
-- Standing authorization for proactive subagent use on non-trivial parallelizable work.
-- Explicit rules for privileged/destructive commands.
+Use a proportionate direct path for routine work. `$local-goal-loop` is
+explicit-only; invoking it authorizes its bounded local workflow. DIRECT
+remains agent-free. STAGED and CONTROLLED may route valid bounded packets
+through the installed Astra/Sol/Luna roles when delegation adds value, but do
+not require a child merely because the loop is active. Outside the skill,
+subagents, independent review, and persistent ledgers remain proportionate and
+risk-based.
 
 ## Suggested `~/.codex/config.toml`
 
 Use `templates/home-codex/config.toml` as the starting file. Key settings:
 
 ```toml
-model = "gpt-5.6-sol"
-model_reasoning_effort = "xhigh"
-sandbox_mode = "workspace-write"
-approval_policy = "on-request"
+model = "gpt-6-astra"
+model_reasoning_effort = "low"
+service_tier = "default"
+sandbox_mode = "danger-full-access"
+approval_policy = "never"
 
 [agents]
-max_threads = 6
-max_depth = 1
-job_max_runtime_seconds = 1800
-
-[sandbox_workspace_write]
-network_access = false
+enabled = true
+max_concurrent_threads_per_session = 2
+default_subagent_model = "gpt-5.6-sol"
+default_subagent_reasoning_effort = "low"
 
 [features]
 hooks = true
+
+[apps._default]
+default_tools_approval_mode = "approve"
+destructive_enabled = true
+open_world_enabled = true
 ```
 
-The reusable template keeps `xhigh` as a conservative root default. The
-currently installed evaluation control is `gpt-5.6-sol` at `ultra`, with
-interactive Plan mode at `xhigh`. That installed assignment is a benchmark
-control, not a proven winner; do not copy it into every role or change it from
-screening evidence alone.
+The reusable template and installed user file both set `danger-full-access`
+with approval policy `never`. Existing enabled app and MCP integrations use
+their supported `approve` tool mode so Codex does not add another prompt;
+external authentication, MFA, provider confirmations, and disabled accounts
+remain independent availability facts. The migration preserves unrelated
+plugins, browser/computer-use integration, project trust entries, and other
+customization. Existing sessions do not retroactively reload the changed file.
 
-If your installed Codex build uses a different spelling for extra-high reasoning, keep using the working CLI setting you already use and adjust this template accordingly.
+The observed 0.154.0 workstation command is the official standalone executable
+through its installation symlink. The historical wrapper template is retained
+for recovery; do not overwrite the installed command during this usage audit.
+`danger-full-access` / `never` remain in the existing configuration. Runtime
+or external tool restrictions must be reported from actual evidence; a
+configuration value alone does not prove every tool will execute.
+
+Browser has an additional machine-wide policy at
+`~/.codex/browser/config.toml`. The canonical
+`templates/home-codex/browser/config.toml` sets origin, history, download,
+upload, and CDP approval modes to `never_ask`, enables full CDP and WebMCP, and
+uses wildcard allow lists. This removes the Browser-specific origin prompt for
+all projects; it is separate from the CLI shell approval policy.
+
+The installed root baseline is Astra-low. Specialized agents explicitly pin
+model and effort, and the unpinned child fallback is Sol-low. In the installed
+runtime, a custom role pin wins over a per-spawn request. Bounded escalation
+therefore uses four explicit on-demand variants rather than temporarily editing
+a shared standing role.
+
+Root effort profiles use the native user-profile files:
+
+```text
+~/.codex/root-low.config.toml
+~/.codex/root-medium.config.toml
+~/.codex/root-high.config.toml
+```
+
+Start bounded work with `codex`, ambiguous work with
+`codex --profile root-medium`, the high acceptance path with
+`codex --profile root-high`, and an explicit bounded/clerical path with
+`codex --profile root-low`; the same ordering works with `codex exec`. In this
+installed release, verify each profile in a fresh process and use the
+`turn/start.effort` field where an app-server caller needs a per-turn override.
+A running session does not retroactively reload edits to the baseline or
+selected profile.
 
 When upgrading models, review `model_instructions_file` before carrying it
 forward. Remove any override that copies an older model's base instructions so
@@ -51,50 +94,132 @@ revalidated against the selected model.
 
 ## Personal `AGENTS.md`
 
-Use `templates/home-codex/AGENTS.md` for your global operating rules. It tells Codex:
-
-- Plan before acting.
-- Prefer subagent scouts before broad edits.
-- Treat the user's standing authorization as explicit delegation permission for useful subagent work.
-- Keep infra/MSP work human-gated.
-- Record evidence.
-- Avoid secrets in files/prompts.
-- Run checks before declaring done.
+Use `templates/home-codex/AGENTS.md` for compact shared invariants. Keep complete
+domain workflows in skills, not the global policy. The root owns delegation,
+write ownership, integration, escalation, and final verification.
 
 ## Custom agents
 
-Global custom agents in this package:
+Canonical user agents in this package:
 
-| Agent | Model | Default mode | Effort | Purpose |
+| Agent | Model | Permission intent | Effort | Purpose |
 |---|---|---|---:|---|
-| `web_scout` | `gpt-5.6-terra` | read-only | medium | Map code paths, entry points, conventions. |
-| `web_builder` | `gpt-5.6-sol` | workspace-write | high | Implement bounded web project changes. |
-| `test_mapper` | `gpt-5.6-terra` | read-only | medium | Locate tests and propose missing coverage. |
-| `risk_reviewer` | `gpt-5.6-sol` | read-only | xhigh | Review security, correctness, data risks. |
-| `infra_recon` | `gpt-5.6-terra` | read-only | high | Prepare safe server inventory/recon. |
-| `infra_planner` | `gpt-5.6-sol` | read-only | xhigh | Build maintenance/change plans. |
-| `iac_planner` | `gpt-5.6-sol` | read-only | xhigh | Plan Terraform/OpenTofu state, import, drift, and desired-state work. |
-| `msp_triage` | `gpt-5.6-terra` | read-only | medium | Classify requests and produce ticket plan. |
-| `customer_comms` | `gpt-5.6-terra` | read-only | medium | Draft customer-safe messages. |
+| `default` | `gpt-5.6-sol` | read-only contract | low | Bounded general support and fallback. |
+| `worker` | `gpt-5.6-sol` | scoped-write contract | low | Mechanical implementation from an explicit packet. |
+| `explorer` | `gpt-5.6-luna` | read-only contract | medium | Fast read-heavy mapping. |
+| `web_scout` | `gpt-5.6-sol` | read-only contract | medium | Analyze UI/API/data flows and ownership. |
+| `web_builder` | `gpt-5.6-sol` | scoped-write contract | medium | Implement bounded web changes. |
+| `project_architect` | `gpt-6-astra` | read-only contract | high | Consequential architecture decisions. |
+| `project_builder` | `gpt-5.6-sol` | scoped-write contract | medium | Non-web/cross-domain implementation. |
+| `project_reviewer` | `gpt-5.6-sol` | read-only contract | high | Diff correctness and regression review. |
+| `test_mapper` | `gpt-5.6-luna` | read-only contract | medium | Existing test inventory and mapping. |
+| `test_strategist` | `gpt-6-astra` | read-only contract | high | Failure scenarios and regression priorities. |
+| `risk_reviewer` | `gpt-6-astra` | read-only contract | high | Security and consequential risk. |
+| `infra_recon` | `gpt-6-astra` | recon-only contract | low | Inventory-backed Linux recon. |
+| `infra_planner` | `gpt-6-astra` | planning-only contract | high | Linux canary/rollback planning. |
+| `iac_planner` | `gpt-6-astra` | planning-only contract | high | IaC dependencies, state, migration, and recovery planning. |
+| `msp_triage` | `gpt-6-astra` | triage-only contract | medium | MSP lifecycle intake and sensitive routing. |
+| `customer_comms` | `gpt-5.6-luna` | draft-only contract | medium | Customer-safe drafts. |
 
-The project-local architect, builder, and reviewer templates use
-`gpt-5.6-sol`. Keep `gpt-5.6-luna` for future clear, repeatable, high-volume
-roles instead of assigning it to nuanced coding, infrastructure, or customer
-work by default. See the official [Codex models](https://developers.openai.com/codex/models)
-and [subagents](https://developers.openai.com/codex/subagents) guidance for the
-current model and custom-agent semantics.
+Codex 0.153.4 custom roles pin model, effort, instructions, selected feature
+flags, and disabled skills. Role files intentionally omit sandbox and approval
+overrides, so every child inherits `danger-full-access` and `never` from root.
+Read-only, planning-only, and scoped-write labels coordinate division of labor
+and ownership; they are not technical isolation. Supported feature controls
+keep the established app/plugin/skill exclusions, every child explicitly
+disables `local-goal-loop`, and `customer_comms` disables `msp-ticket-ops`.
 
-Do not over-specialize too early. Add agents only after you see repeated work patterns.
+Minimum on-demand variants:
 
-The prepared role benchmark is suite `1.5.0` with harness `1.4.0`. Calibration
-supports 13 of 14 installed controls on the V1 fixtures; `customer_comms` has a
-real fixture failure. The July 12 Sol/Terra/Luna screen completed all 238 cells,
-but human review found assertion brittleness and a root-orchestration terminal
-classification anomaly. Its additive offline regrade preserves the frozen
-source and excludes the 34 changed V2 builder cases. See
-`docs/16-role-model-evaluation.md` for the methodology and next gate. Production
-routing remains unchanged until finalist stability, three
-distinct fixtures, human review, and operator approval are complete.
+| Variant | Model | Effort | Use |
+|---|---|---:|---|
+| `web_scout_high` | `gpt-5.6-sol` | high | Async/retry/distributed/auth flow tracing. |
+| `web_builder_high` | `gpt-5.6-sol` | high | Difficult web diagnosis or implementation. |
+| `project_builder_high` | `gpt-5.6-sol` | high | Difficult non-web/cross-domain implementation. |
+| `project_reviewer_astra_high` | `gpt-6-astra` | high | Consequential review involving integrity, migration, recovery, or trust boundaries. |
+
+These variants are escalation mechanisms, not additional standing workflow
+stages. No standing or variant definition uses xhigh, Max, or Ultra.
+
+## Project routing rollout
+
+Use the synchronizer to install the canonical user agent bench, reconcile the
+documented two-thread project config, and fail closed if a project-scoped
+agent shadow appears:
+
+```bash
+node scripts/sync-agent-routing.mjs --check --projects-root "$HOME/projects"
+node scripts/sync-agent-routing.mjs --write --projects-root "$HOME/projects"
+```
+
+The command covers immediate project directories and first-party repositories
+one level below `portfolio/`. It never creates project `.codex/agents` copies
+and does not delete a detected shadow automatically. Agent contracts remain
+exact copies of `templates/home-codex/agents` under `~/.codex/agents`.
+
+## Shared invariant rollout
+
+Use the marker-safe synchronizer to propagate the canonical shared execution
+block without replacing project-specific instructions:
+
+```bash
+node scripts/sync-shared-invariants.mjs --check --projects-root "$HOME/projects" --targets-file reviewed-targets.txt
+node scripts/sync-shared-invariants.mjs --write --projects-root "$HOME/projects" --targets-file reviewed-targets.txt
+```
+
+For workstation-wide changes, use a reviewed target file containing only active
+managed `AGENTS.md` paths. This prevents discovered archives or unmanaged files
+from joining a write pass. The command manages only files with exactly one
+ordered marker pair, preserves all text outside it, and fails closed on missing,
+outside-root, duplicate, malformed, or drifted targets. The canonical block is
+read from `templates/web-project/AGENTS.md`.
+
+## Project notes rollout
+
+Use the project-notes synchronizer separately from model routing. It manages a
+marker-delimited block in each immediate project's `AGENTS.md`, creates the
+concrete external notes root when writing, and preserves project-specific text:
+
+```bash
+node scripts/sync-project-notes.mjs --check --projects-root "$HOME/projects" --docs-base "<notes-base>" --mapping-file "<private-mapping.json>"
+node scripts/sync-project-notes.mjs --write --projects-root "$HOME/projects" --docs-base "<notes-base>" --mapping-file "<private-mapping.json>"
+```
+
+Exact workstation paths and canonical-name overrides are local/private
+configuration. A mapping file is mandatory whenever any project identity does
+not match its code-directory basename; omitting it would route that project back
+to a basename-derived notes folder. Reuse the same mapping file for both
+`--check` and `--write`. A project set whose canonical names all match their
+basenames, such as a separately synchronized nested portfolio, may omit it.
+
+Pass a local read-only legacy-root map with `--legacy-map-file <path>` only when
+a project must continue reading a differently named historical notes root. The
+command must stop if the notes base is unavailable and must never move or merge
+legacy note content.
+
+The synchronizer adds the concrete project notes path to project-local
+`sandbox_workspace_write.writable_roots`. Because Codex ignores project config
+until a project is trusted, an operator who needs this behavior before per-root
+trust is established can also put the selected canonical project notes roots in
+the installed global `writable_roots`. Avoid granting the whole notes base when
+it also contains unrelated or read-only legacy trees. Any global fallback
+should be an explicit local choice, not a hard-coded public template default.
+
+The current role benchmark is suite `3.1.0`, with held-out finalist manifests
+at `3.2.0`, harness `1.8.0`, and 166 tests across 22 files.
+The July 15 Sol/Terra/Luna V2 screen completed all 238 cells. An additive
+failure audit and diff review found 84 grader false negatives and 37 genuine failures. The
+suite-1.7.0 regrade preserves the frozen source and covers 221 compatible cases:
+170 pass, 11 gate failure, 26 quality failure, 12 indeterminate, and two source
+timeouts, while excluding only the 17 changed Project Builder cells. Those
+cells then passed 17/17, and the two prior timeout cells passed 2/2, yielding a
+189/11/26/12/0 composite. Twelve root-orchestration cells remain honestly indeterminate
+because the CLI trace exposes no child identity, outcome, or usage evidence.
+See `docs/16-role-model-evaluation.md` for the methodology and evidence paths.
+The Builder and Scout finalists completed the three-fixture gate. The operator
+kept Builder on Sol/high and approved Scout Sol/low at that time. The later
+explicit standing matrix supersedes that routing decision while preserving the
+historical evidence.
 
 ## Rules
 
@@ -102,15 +227,11 @@ distinct fixtures, human review, and operator approval are complete.
 as `~/.codex/rules/agent-team.rules` so the live workstation policy has a
 project-specific name.
 
-The rules are not a complete security boundary. They are a friction layer. The stronger boundaries are:
-
-- Codex sandbox.
-- Your approval policy.
-- No secrets in repo.
-- No broad production credentials in shell env.
-- Human approval for customer/server changes.
-
-Avoid catch-all SSH prompt rules in reusable rule templates when project-specific SSH deploy commands are allow-listed in the installed workstation rules. Codex resolves multiple matching rules to the most restrictive decision, so a generic `pattern = ["ssh"]` prompt overrides narrower `allow` rules. Keep private host-specific allow-lists in the installed local rules file, not in public or reusable templates.
+The full-access rules intentionally contain no `prompt` decisions. The assigned
+objective, trusted target identity, owning workflow, rollback, and verification
+govern ordinary SSH, transfer, privilege, service, package, Docker, firewall,
+and IaC commands. The reusable rule keeps one narrow `forbidden` class for raw
+filesystem creation. Keep secrets out of repositories and command output.
 
 ## Hooks
 
@@ -136,6 +257,12 @@ Skills are reusable operating procedures. This package includes:
 
 A skill should contain workflow instructions, not long project-specific data. Project-specific facts belong in the repo `AGENTS.md`, inventory YAML, customer profiles, runbooks, and goal files.
 
+Explicit skill use and analytics are separate concerns. A structured
+`local-goal-loop` attachment in local session events proves the skill was
+provided to the turn even when no skill lifecycle event appears in analytics.
+Likewise, child `session_meta` plus effective `turn_context` is stronger
+evidence than a main-chat model summary. Record missing telemetry honestly.
+
 Local installations may also include project-specific deploy skills and other
 helpers under `~/.codex/skills` or `/mnt/c/docs/skills`. Keep those runbooks
 private/public-safe according to the project boundary.
@@ -154,26 +281,19 @@ done
 
 ### Planning-only
 
-Use when beginning infra/MSP work:
+Use planning-only when the objective asks for a plan. The runtime remains full
+access; the no-write restriction is a task and role contract.
 
-```text
-Switch to read-only / planning mode. Do not edit files or run commands. Produce the plan first.
-```
+### Normal implementation and infrastructure execution
 
-### Normal web implementation
-
-Use default `workspace-write` / `on-request`.
-
-### Infra execution
-
-Do not use broad `danger-full-access`. Prefer one approved command at a time, with evidence capture.
+Use the default `danger-full-access` / `never` configuration. Determine scope
+from the objective, establish exact targets, execute necessary actions without a
+second permission prompt, and capture checks and rollback evidence appropriate
+to impact.
 
 ### Emergency incident
 
-In an incident, speed matters, but records still matter. Use:
-
-- Read-only recon first where possible.
-- One command at a time.
-- Before/after health checks.
-- Timestamped evidence.
-- Manual approval for disruptive steps.
+Use the same full-access contract with inventory-backed identity, a bounded
+change packet, before/after health checks, timestamps, abort conditions, and
+recovery evidence. An unavailable credential or enforced external confirmation
+is a blocker; do not start an interactive login flow.

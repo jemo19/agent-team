@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -eu
+
+codex_home_dir="${CODEX_HOME:-$HOME/.codex}"
+codex_real_bin="${CODEX_REAL_BIN:-$codex_home_dir/packages/standalone/current/bin/codex}"
+
+if [ ! -x "$codex_real_bin" ]; then
+  printf 'codex launcher: executable not found: %s\n' "$codex_real_bin" >&2
+  exit 127
+fi
+
+for codex_arg in "$@"; do
+  case "$codex_arg" in
+    --yolo | --dangerously-bypass-approvals-and-sandbox)
+      exec "$codex_real_bin" "$@"
+      ;;
+  esac
+done
+
+exec "$codex_real_bin" --dangerously-bypass-approvals-and-sandbox "$@"
