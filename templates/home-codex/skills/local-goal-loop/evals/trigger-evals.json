@@ -1,0 +1,111 @@
+{
+  "skill_name": "local-goal-loop",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "$local-goal-loop Migrate three services to the new database schema over several stages, including compatibility tests, backup verification, rollback steps, and a final cutover gate.",
+      "expected_output": "Invoke the skill explicitly and select CONTROLLED, with a bounded ledger, failable gates, selective delegation, rollback evidence, and a stopping condition.",
+      "files": [],
+      "expectations": [
+        "Explicit invocation is honored",
+        "CONTROLLED mode is selected",
+        "Rollback and deterministic gates are included"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Use $local-goal-loop for a broad account-management feature that will span several sessions and touch the API, UI, schema, and tests.",
+      "expected_output": "Honor explicit invocation, maintain one compact ledger for this substantial work, and select useful bounded discovery/planning/implementation/review lanes only when justified, using configured roles without repeat permission.",
+      "files": [],
+      "expectations": [
+        "Explicit invocation honored",
+        "Selective configured-role delegation",
+        "One compact persistent ledger",
+        "Stage invalidation relationships"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "$local-goal-loop Produce a production-sensitive infrastructure change plan with drift checks, rollback prerequisites, approval gates, and no apply.",
+      "expected_output": "Invoke the skill explicitly, choose CONTROLLED, remain within planning authorization, and stop before production mutation.",
+      "files": [],
+      "expectations": [
+        "Explicit invocation is honored",
+        "Planning scope is not expanded into execution",
+        "Observable pass conditions are used"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "$local-goal-loop Systematically replace the shared caching layer across two services, with evidence at every gate and an explicit stop condition.",
+      "expected_output": "Honor explicit invocation and choose the smallest justified staged or controlled mode. Delegate a configured bounded packet only when it adds value; INVOKE and REVIEW may be skipped. Root retains integration.",
+      "files": [],
+      "expectations": [
+        "Named skill request is explicit",
+        "Mode is chosen from task complexity",
+        "Configured subagent routing requires no second instruction",
+        "Root retains integration"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Fix the typo in README.md: change 'recieve' to 'receive'.",
+      "expected_output": "Do not implicitly invoke local-goal-loop; handle the one-line edit directly under normal governing instructions.",
+      "files": [],
+      "expectations": [
+        "Skill does not implicitly trigger",
+        "No ledger or subagent is proposed"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Explain what this function does.",
+      "expected_output": "Do not implicitly invoke local-goal-loop; provide a concise explanation.",
+      "files": [],
+      "expectations": [
+        "Skill does not implicitly trigger",
+        "No orchestration ceremony is introduced"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Rename the local variable temp to normalizedValue in this function.",
+      "expected_output": "Do not implicitly invoke local-goal-loop; make the routine scoped change and its normal check.",
+      "files": [],
+      "expectations": [
+        "Skill does not implicitly trigger",
+        "No persistent state is created"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Run npm test -- user-parser.test.ts and tell me whether it passes.",
+      "expected_output": "Do not implicitly invoke local-goal-loop; run the single known test and report the result.",
+      "files": [],
+      "expectations": [
+        "Skill does not implicitly trigger",
+        "No plan or delegation overhead is added"
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Review this ten-line helper for obvious correctness issues.",
+      "expected_output": "Do not implicitly invoke local-goal-loop; perform the short review directly.",
+      "files": [],
+      "expectations": [
+        "Skill does not implicitly trigger",
+        "No independent reviewer is spawned"
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Fix the clearly scoped null check in parseUser and run its existing unit test.",
+      "expected_output": "Do not implicitly invoke local-goal-loop; treat this as a routine bug fix with the obvious implementation path.",
+      "files": [],
+      "expectations": [
+        "Skill does not implicitly trigger",
+        "Normal targeted verification is sufficient"
+      ]
+    }
+  ]
+}

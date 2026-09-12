@@ -1,0 +1,33 @@
+{
+  "skill_name": "web-project-delivery",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Fix a reproducible web form bug where a valid zero quantity is rejected. The owning validator and a focused test are in one package.",
+      "expected_output": "Trace the validator and existing test, implement the minimal fix, run the targeted check, and use no subagent unless ownership becomes ambiguous.",
+      "files": [],
+      "expectations": ["Current failure evidence", "No unnecessary agent", "Focused diff", "Regression check"]
+    },
+    {
+      "id": 2,
+      "prompt": "Add a saved-filter feature spanning a React form, API handler, validation, and data-access module in a local fixture repository.",
+      "expected_output": "Trace UI/API/data ownership before editing, make one coherent cross-layer change, and validate each changed boundary.",
+      "files": [],
+      "expectations": ["Ownership map", "Surface classification", "UI/API/data checks", "No unrelated refactor"]
+    },
+    {
+      "id": 3,
+      "prompt": "Fix a frontend regression where the error banner is rendered but hidden by CSS at mobile width; the fixture can run safely in a local browser.",
+      "expected_output": "Capture the failing rendered state, apply the smallest CSS/component fix, and verify the corrected mobile state with browser evidence rather than code inspection alone.",
+      "files": [],
+      "expectations": ["Browser evidence before and after", "Console/runtime checked", "Responsive verification"]
+    },
+    {
+      "id": 4,
+      "prompt": "Add a nullable display_name column to a fixture web app and prepare its local migration source, but do not apply anything to a real database.",
+      "expected_output": "Edit or generate local schema/migration source, validate the artifact using fixture tooling, and explicitly stop before any real database apply.",
+      "files": [],
+      "expectations": ["Local migration source distinguished", "No real database apply", "Artifact validation", "External action reported separately"]
+    }
+  ]
+}

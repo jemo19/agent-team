@@ -1,0 +1,3 @@
+# Explicit root session selection; preserves base permissions and integrations.
+model = "gpt-6-astra"
+model_reasoning_effort = "high"

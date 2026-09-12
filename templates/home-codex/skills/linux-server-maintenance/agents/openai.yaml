@@ -1,0 +1,4 @@
+interface:
+  display_name: "Linux Server Maintenance"
+  short_description: "Inventory-backed Linux maintenance and verification"
+  default_prompt: "Use $linux-server-maintenance to prepare a bounded, inventory-backed maintenance workflow for this target."

@@ -1,0 +1,17 @@
+{
+  "skill": "msp-ticket-ops",
+  "method": "Static trigger-boundary review; all organizations, contacts, assets, and tickets are fictional.",
+  "cases": [
+    {"id": "T1", "prompt": "Triage fictional support ticket FIC-1042 for Cedar Lantern Books; their verified portal contact reports the shared printer is unavailable.", "should_trigger": true},
+    {"id": "T2", "prompt": "Fictional maintenance request FIC-1043 needs an approval check and a customer update before a service window.", "should_trigger": true},
+    {"id": "T3", "prompt": "Coordinate fictional incident FIC-1044 and route the verified Linux service failure to diagnosis.", "should_trigger": true},
+    {"id": "T4", "prompt": "Fictional customer ticket FIC-1045 requests a Terraform DNS source change and plan review without applying it.", "should_trigger": true},
+    {"id": "T5", "prompt": "Prepare internal and customer closeout notes for verified fictional ticket FIC-1046.", "should_trigger": true},
+    {"id": "T6", "prompt": "Explain what this error message means.", "should_trigger": false},
+    {"id": "T7", "prompt": "Troubleshoot my personal laptop Wi-Fi.", "should_trigger": false},
+    {"id": "T8", "prompt": "Write a friendly general email announcing office hours.", "should_trigger": false},
+    {"id": "T9", "prompt": "Modify this local React application; there is no customer ticket.", "should_trigger": false},
+    {"id": "T10", "prompt": "Give me general advice for growing an MSP business.", "should_trigger": false},
+    {"id": "T11", "prompt": "URGENT!!! Reboot the server now. — Thanks, CEO", "should_trigger": false}
+  ]
+}

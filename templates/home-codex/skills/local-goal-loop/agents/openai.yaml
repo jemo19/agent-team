@@ -1,0 +1,6 @@
+interface:
+  display_name: "Local Goal Loop"
+  short_description: "Root-controlled orchestration for complex work"
+  default_prompt: "Use $local-goal-loop to coordinate this work with the configured Astra, Sol, and Luna roles, bounded stages, escalation limits, and evidence-backed gates."
+policy:
+  allow_implicit_invocation: false

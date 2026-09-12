@@ -1,15 +1,44 @@
 # Local Agentic Production Team for Codex CLI
 
+## September 12 Astra maintenance
+
+The active baseline is Astra Low at Standard speed for bounded work, with
+`root-medium` for ambiguity and `root-high` for consequential reasoning. The
+spawned-worker cap is two, excluding the primary. Existing named Sol/Luna/Astra
+roles remain available; ordinary work does not require a team. Keep required
+independent review and task-specific operational controls.
+
+Startup instructions and web delivery now emphasize relevant context and
+acceptance instead of repeated process. Read notes by need and rerun checks
+when inputs changed, evidence is stale, failures remain or a gate requires it.
+The standalone 0.154.0 executable is active; older wrapper claims below are
+historical. Permission settings were preserved. Existing sessions retain their
+loaded instructions and may retain model overrides; use a fresh session.
+
+See [the maintenance report](HARNESS_USAGE_AUDIT.md) for evidence, validation,
+limitations and rollback. Older dated entries are historical, not instructions
+to restore their settings. No savings percentage or benchmark win is claimed.
+
+
+## Identity and authority
+
+- Canonical project identity: `ai-teams`.
+- Canonical framework and notes authority: this repository.
+- A singular `ai-team` sibling may exist as a compatibility index, but it is
+  not a second writable authority.
+- Exact workstation paths and helper-workspace mappings belong in ignored
+  private state, not this public repository.
+
 Agent Team is a local-first operating framework for using Codex CLI like a
 small production team. It is designed around practical local workflows rather
 than a vendor-neutral agent platform:
 
 - one human operator;
 - Codex CLI as the primary interface;
-- role-routed GPT-5.6 models and reasoning effort instead of using the highest
-  effort everywhere;
+- role-routed Astra, Sol, and Luna models with reasoning effort matched to the
+  work instead of using the highest effort everywhere;
 - multiple local web application repositories;
-- Linux/server operations with approval gates;
+- Linux/server operations with inventory, canaries, rollback, and verification;
 - MSP-style ticket, maintenance, documentation, triage, and closeout workflows.
 
 The design goal is a **local production team**: a practical Codex-driven
@@ -17,13 +46,34 @@ operating system for doing more work safely, faster, and with less context loss.
 
 ## The core pattern
 
-Use a Fable-inspired loop, implemented in Codex:
+For explicitly requested systematic work or genuinely long/risky tasks, invoke
+the Fable-inspired loop with `$local-goal-loop`:
 
 ```text
-GOAL -> PLAN -> INVOKE SUBAGENTS -> EXECUTE -> CHECK -> REVIEW -> HUMAN GATE -> RECORD EVIDENCE
+GOAL -> PLAN -> INVOKE (ROUTE OR DELEGATE) -> EXECUTE -> CHECK -> REVIEW -> RECORD
 ```
 
-The important lesson from Fable is not “use Claude Fable.” The lesson is the operating pattern: give the model a clear goal, explicit boundaries, a real plan, delegated subgoals, deterministic checks, and permission gates. Codex already has the pieces needed for this locally: `AGENTS.md`, custom agents, subagents, skills, hooks, sandboxing, rules, and approval policy.
+Routine work uses a direct path instead. `$local-goal-loop` is explicit-only;
+even when invoked, delegation and independent review remain optional when they
+do not add value. The Astra-low root owns direction, routing, integration,
+acceptance, final verification, escalation, and thread closure. Invocation
+authorizes the bounded local workflow. The assigned objective is the authority
+boundary: work needed inside it proceeds without a second approval, while
+unrelated actions and explicit exclusions remain out of scope.
+
+Consequential or materially ambiguous work can use a selective
+planner-to-executor path. An Astra-high `project_architect` follows a read-only
+contract and produces a `READY` implementation packet. The root routes mechanical
+non-specialist work to Sol-low `worker`; specialist work and implementation
+requiring meaningful judgment stay with their named Sol-medium builder.
+Executors verify packets against the current worktree instead of treating plans
+as unquestionable instructions.
+
+Pair each code root with one external durable-notes root. The project directory
+name is the default mapping, while explicit canonical-name overrides handle
+intentional identity differences. Global guidance provides the fallback;
+concrete, managed project `AGENTS.md` blocks make the read/write location
+explicit while keeping implementation evidence in the repository.
 
 ## Package layout
 
@@ -104,8 +154,12 @@ Create three durable areas on your workstation:
 ~/.codex/
   AGENTS.md
   config.toml
+  browser/config.toml
   agents/*.toml
   rules/agent-team.rules
+
+~/.local/bin/
+  codex (official standalone command)
 
 ~/.agents/skills/
   local-goal-loop/SKILL.md
@@ -128,59 +182,32 @@ There are three operating teams:
 2. **Local Infra Team** — inventories, observes, patches, and manages your three Linux servers.
 3. **MSP Operations Team** — handles customer requests, maintenance windows, documentation, risk classification, verification, and customer-ready summaries.
 
-The human operator remains the owner and change authority. Agents can
-investigate, draft, propose, implement in local repos, test, and produce
-evidence. They should not perform privileged production or customer-impacting
-changes without explicit human approval.
+The human operator remains the owner and assigns the objective. Once assigned,
+Codex completes the necessary in-scope work with full access and no routine
+approval prompts, including privileged, production, and customer-impacting work
+when the objective includes it. External credentials, customer authorization,
+and explicit task exclusions remain real constraints.
 
 ## Model routing
 
-The default team uses `gpt-5.6-sol` for root orchestration, builders, planners,
-architects, and reviewers. Read-heavy scouts, test mapping, infrastructure
-reconnaissance, MSP triage, and customer communication use
-`gpt-5.6-terra`. Keep `gpt-5.6-luna` available for future deterministic,
-high-volume batch roles rather than assigning it to nuanced work by default.
+The installed baseline is an Astra-low root with an unpinned Sol-low child
+fallback. Luna handles narrow file/test mapping and draft-only communication;
+Sol handles bounded implementation, web-flow analysis, and ordinary review;
+Astra handles consequential architecture, test strategy, risk, infrastructure,
+IaC, and sensitive triage. Every named child pins its own model and effort.
+Role pins override requested spawn settings in the installed runtime, so four
+explicit on-demand variants provide the supported high-effort Scout, Builder,
+and consequential Reviewer paths without mutating standing roles. No standing
+role uses xhigh, Max, or Ultra. See `docs/17-agent-architecture.md` for the
+exact 16-role matrix, profile commands, variants, and bounded escalation.
+The installed no-prompt execution controls and verification are summarized in
+`docs/19-full-access-autonomous.md`.
 
-Reasoning effort remains role-based: `xhigh` for architecture, planning, and
-risk review; `high` for implementation and infrastructure recon; and `medium`
-for support agents. The current root control uses `gpt-5.6-sol` at `ultra`,
-while interactive Plan mode uses `xhigh`. These are controls to evaluate, not
-assumed winners.
+## Historical evaluations
 
-## Role and model evaluation
-
-The versioned evaluation design lives in
-`docs/16-role-model-evaluation.md`; its executable package lives in
-`evals/role-model-matrix/`. Version 1 defines one synthetic
-difficult/adversarial fixture for each of 14 role surfaces and freezes 17
-supported Sol, Terra, and Luna reasoning configurations. A complete screen is
-238 candidate runs before confirmations. The prepared suite is `1.5.0` with
-harness `1.4.0`. It records indeterminate delegation telemetry as a score
-interval, keeps model-generated commands outside the Codex authentication
-namespace, distinguishes recovered transport warnings from fatal failures, and
-has 76 deterministic regression tests across 13 files.
-
-The local harness uses the installed `codex exec` client and existing Codex
-authentication, not custom Responses/Evals API request code. Candidate turns
-consume Codex usage; deterministic grading and reports remain local. The
-completed two-cell Ultra smoke-test analysis is in
-`evals/role-model-matrix/PILOT.md`. Calibration v6 human review and offline
-replay under suite `1.4.2` / harness `1.3.1` produce 13 supported passes and
-one supported `customer_comms` failure. The July 12 screen completed all 238
-cells, but human review found pervasive deterministic-grader false negatives
-and a root-orchestration classification anomaly. Preserve it as calibration
-evidence; it does not support a routing change.
-
-A separate public lane under
-`evals/public-benchmarks/terminal-bench-2/` completed an 85-cell,
-17-configuration by five-task Terminal-Bench 2 screen through a host-side
-subscription-authenticated bridge. Results and crash-recovery provenance are
-in `RESULTS-2026-07-12.md`. No OpenAI API key or OpenAI API call was used.
-
-Run static validation and inspect the no-call preview before any billed pilot.
-Raw traces stay in the ignored local results directory. No benchmark result
-changes active routing automatically: hard failures, representative traces,
-repeatability, cost, latency, and human review all belong at the routing gate.
+The existing `evals/` tree is historical evidence and is unchanged by this
+configuration release. No older unpublished campaign history is included.
+Use `HARNESS_USAGE_AUDIT.md` for this maintenance's actual checks and limits.
 
 ## Fast start
 
@@ -202,9 +229,10 @@ Then copy templates:
 ```bash
 mkdir -p ~/agentic-team
 cp -R templates/ops-control ~/agentic-team/local-ops
-mkdir -p ~/.codex ~/.codex/agents ~/.codex/rules ~/.agents/skills
+mkdir -p ~/.codex ~/.codex/agents ~/.codex/browser ~/.codex/rules ~/.agents/skills
 cp templates/home-codex/AGENTS.md ~/.codex/AGENTS.md
 cp templates/home-codex/config.toml ~/.codex/config.toml
+cp templates/home-codex/browser/config.toml ~/.codex/browser/config.toml
 cp templates/home-codex/rules/default.rules ~/.codex/rules/agent-team.rules
 cp templates/home-codex/agents/*.toml ~/.codex/agents/
 cp -R templates/home-codex/skills/* ~/.agents/skills/
@@ -216,8 +244,8 @@ installed rules file is `~/.codex/rules/agent-team.rules`.
 Validate installed skills after copying or editing `SKILL.md` files:
 
 ```bash
-for root in ~/.codex/skills ~/.agents/skills /mnt/c/docs/skills; do
-  [ -d "$root" ] && find "$root" -name SKILL.md -printf '%h\n'
+for root in ~/.codex/skills ~/.agents/skills "${SHARED_SKILLS_ROOT:-}"; do
+  [ -n "$root" ] && [ -d "$root" ] && find "$root" -name SKILL.md -printf '%h\n'
 done | sort | while IFS= read -r skill_dir; do
   python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py "$skill_dir"
 done
@@ -227,11 +255,9 @@ Do not blindly copy the sample config over an existing `~/.codex/config.toml` wi
 
 ## First useful Codex prompt
 
-Open Codex in `~/agentic-team/local-ops` and run:
-
-The prompt names subagents directly as an example, but the installed global instructions already grant standing authorization for useful read-only subagents on non-trivial work.
+Open Codex in the applicable trusted operations workspace. Do not assume a
+fleet-wide inventory exists; identify the workspace's declared inventory first.
 
 ```text
-Read AGENTS.md and goals/GOAL_TEMPLATE.md. Do not run SSH or make changes yet.
-Create a first-pass local production team inventory plan for my three Linux servers and MSP operations. Use the Fable-style loop: define the goal contract, spawn read-only scout subagents for docs/inventory/checklist review, then consolidate a safe phase plan. Stop before any remote command.
+Read AGENTS.md and the workspace's declared inventory/runbooks. Do not run SSH or make changes. Map only exact trusted asset IDs, identify missing target mappings as BLOCKED_EXTERNAL, and produce a bounded baseline/change-plan outline. Use a subagent only if separate read-heavy inventory analysis materially helps.
 ```

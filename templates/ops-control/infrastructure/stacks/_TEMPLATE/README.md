@@ -23,12 +23,13 @@ terraform validate
 terraform plan
 ```
 
-## Approval gates
+## Objective authority and root checks
 
-- Apply:
-- Destroy:
-- Import:
-- State operations:
+- Assigned objective/environment:
+- Apply plan and abort condition:
+- Destroy target and recovery:
+- Import identity:
+- State operation and backup:
 
 ## Verification
 

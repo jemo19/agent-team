@@ -1,29 +1,63 @@
 # 15 - Public Current State
 
-Last reviewed: 2026-07-12
+Last reviewed: 2026-09-12
 
 This file describes the public release state of the agent-team framework. It is
 safe to publish. Keep exact workstation paths, server names, IP addresses,
 private repository names, customer names, and credential references in ignored
 private files instead.
 
+For the current Astra maintenance and verification limits, see
+[HARNESS_USAGE_AUDIT.md](../HARNESS_USAGE_AUDIT.md).
+
 ## Public Purpose
 
 Agent Team is a Codex-centered operating framework for:
 
-- planning non-trivial work before edits;
-- using subagents for bounded scouting, implementation, test mapping, and
-  review, then closing completed agent threads after consolidation;
+- selecting a workflow proportionate to the work;
+- using role-routed subagents for bounded scouting, implementation, test
+  mapping, or risk-justified review, then closing completed threads;
 - managing web project delivery with project-local `AGENTS.md` guidance;
-- preparing infrastructure and MSP-style work with approval gates;
+- executing objective-authorized infrastructure and MSP-style work with trusted target, rollback, and verification gates;
 - recording evidence, checks, and handoff notes instead of relying on chat
   memory.
 
-The normal loop is:
+The controlled loop is explicit-only through `$local-goal-loop`:
 
 ```text
-GOAL -> PLAN -> INVOKE SUBAGENTS -> EXECUTE -> CHECK -> REVIEW -> HUMAN GATE -> RECORD EVIDENCE
+GOAL -> PLAN -> INVOKE (ROUTE OR DELEGATE) -> EXECUTE -> CHECK -> REVIEW -> RECORD
 ```
+
+Routine work takes a direct implementation-and-validation path without
+mandatory agents, reviewers, or persistent evidence files.
+
+When `$local-goal-loop` is explicitly invoked, that invocation activates its
+bounded local workflow without another model-selection or subagent-permission
+prompt. STAGED and CONTROLLED work may route valid bounded packets through the
+configured Astra, Sol, and Luna roles when delegation adds value; the loop does
+not require a child or independent review for every task. The Astra-low root
+retains integration and final verification. The assigned objective authorizes
+all necessary in-scope actions, including external or production effects it
+actually requests. Full access does not widen the target or requested outcome.
+
+Consequential or materially ambiguous work can use a selective
+planner-to-executor path: an Astra-high architect with a read-only contract
+produces a complete
+`READY` implementation packet; mechanical non-specialist work may route to
+Sol-low `worker`, while specialist or judgment-heavy implementation stays with
+the named Sol-medium builder. Executors validate packets against current
+repository evidence and return contradictions to the root.
+
+Project guidance now supports a concrete external notes root. The code-root
+directory name provides the default mapping, while explicit canonical-name
+overrides handle intentional identity differences. A separate synchronizer
+manages only its delimited `AGENTS.md` block, preserves project-specific
+instructions, and leaves legacy content migration outside that synchronizer's
+scope.
+
+The canonical public identity is `ai-teams`; a singular `ai-team` sibling is a
+compatibility index only. Exact workstation paths and helper-workspace mappings
+belong in ignored private state.
 
 ## Public Repository Boundary
 
@@ -65,47 +99,54 @@ sanitized.
 
 ## Agent Model Routing
 
-Root controls currently use:
+The installed root baseline is `gpt-6-astra` at low. Unpinned children
+default to `gpt-5.6-sol` at low, and the documented child-thread ceiling is
+two.
+All 16 stable roles are centralized under `~/.codex/agents`; project-scoped
+same-name copies are intentionally absent.
 
-| Surface | Model | Effort | Evaluation note |
-|---|---|---:|---|
-| Root orchestration | `gpt-5.6-sol` | ultra | Measures deep orchestration and automatic delegation; compare directly with max. |
-| Interactive Plan mode | `gpt-5.6-sol` | xhigh | Confirm separately in interactive Plan mode because non-interactive execution is only a surrogate. |
-
-Public templates currently define these global custom agents:
-
-| Agent | Model | Mode | Effort | Purpose |
+| Agent | Model | Permission intent | Effort | Accepted custom skill |
 |---|---|---|---:|---|
-| `customer_comms` | `gpt-5.6-terra` | read-only | medium | Draft customer-safe communication. |
-| `iac_planner` | `gpt-5.6-sol` | read-only | xhigh | Plan Terraform/OpenTofu state, import, drift, and desired-state work. |
-| `infra_planner` | `gpt-5.6-sol` | read-only | xhigh | Build server/customer change plans with rollback and evidence. |
-| `infra_recon` | `gpt-5.6-terra` | read-only | high | Prepare safe read-only server reconnaissance. |
-| `msp_triage` | `gpt-5.6-terra` | read-only | medium | Classify MSP-style requests and produce ticket plans. |
-| `risk_reviewer` | `gpt-5.6-sol` | read-only | xhigh | Review correctness, security, auth, data, and operational risk. |
-| `test_mapper` | `gpt-5.6-terra` | read-only | medium | Locate tests, commands, fixtures, and coverage gaps. |
-| `web_builder` | `gpt-5.6-sol` | workspace-write | high | Implement bounded web project packets. |
-| `web_scout` | `gpt-5.6-terra` | read-only | medium | Map web code paths, conventions, tests, and risks. |
+| `default` | `gpt-5.6-sol` | read-only contract | low | none |
+| `worker` | `gpt-5.6-sol` | scoped-write contract | low | none |
+| `explorer` | `gpt-5.6-luna` | read-only contract | medium | none |
+| `web_scout` | `gpt-5.6-sol` | read-only contract | medium | none |
+| `web_builder` | `gpt-5.6-sol` | scoped-write contract | medium | web delivery |
+| `project_architect` | `gpt-6-astra` | read-only contract | high | none |
+| `project_builder` | `gpt-5.6-sol` | scoped-write contract | medium | none |
+| `project_reviewer` | `gpt-5.6-sol` | read-only contract | high | none |
+| `test_mapper` | `gpt-5.6-luna` | read-only contract | medium | none |
+| `test_strategist` | `gpt-6-astra` | read-only contract | high | none |
+| `risk_reviewer` | `gpt-6-astra` | read-only contract | high | none |
+| `infra_recon` | `gpt-6-astra` | recon-only contract | low | Linux maintenance, recon-constrained |
+| `infra_planner` | `gpt-6-astra` | planning-only contract | high | Linux maintenance, planning-constrained |
+| `iac_planner` | `gpt-6-astra` | planning-only contract | high | IaC ops, planning-constrained |
+| `msp_triage` | `gpt-6-astra` | triage-only contract | medium | MSP ticket ops, triage-constrained |
+| `customer_comms` | `gpt-5.6-luna` | draft-only contract | medium | none |
 
-Project-local templates define:
-
-| Agent | Model | Mode | Effort | Purpose |
-|---|---|---|---:|---|
-| `project_architect` | `gpt-5.6-sol` | read-only | xhigh | Plan multi-file project changes. |
-| `project_builder` | `gpt-5.6-sol` | workspace-write | high | Implement bounded project-specific packets. |
-| `project_reviewer` | `gpt-5.6-sol` | read-only | xhigh | Review project diffs before closeout. |
-
-This first migration preserves the previous role effort levels so model behavior
-can be evaluated independently. `gpt-5.6-luna` is intentionally unassigned
-until the framework adds a deterministic high-volume role.
+Every child disables `local-goal-loop`. Codex 0.153.4 role files intentionally
+omit sandbox and approval overrides, so children inherit `danger-full-access`
+and approval policy `never`. Read-only, planning-only, and scoped-write limits
+are coordination contracts rather than security isolation. Established feature
+and skill exclusions remain in place, with plugins retained for web-builder
+roles. Root retains all five accepted skills and controls one-off escalation.
+Four on-demand variants provide Sol-high Scout/Builder routes and an Astra-high
+consequential Reviewer route without mutating standing roles. No standing
+xhigh, Max, or Ultra assignment exists. See `docs/17-agent-architecture.md`.
 
 ## Role Evaluation State
+
+The v1/v6 benchmark below is retained as historical evidence for the previous
+14-role routing. It does not define the current 16-role architecture or justify
+standing xhigh assignments. Current routing is the table above and must be
+validated with the integration smoke matrix.
 
 The public-safe benchmark specification is
 `docs/16-role-model-evaluation.md`, with executable fixtures and reporting under
 `evals/role-model-matrix/`. Version 1 covers 14 root, global, and project-local
 role surfaces against a frozen 17-configuration matrix, for 238 screening cells
-per repetition. The current implementation is suite `1.5.0` with harness
-`1.4.0`.
+per repetition. The default implementation is suite `3.1.0`; the held-out
+finalist manifests are `3.2.0`, with harness `1.8.0`.
 
 The benchmark uses synthetic data and isolated disposable workspaces. It
 records harness validity, critical gates, task quality, latency, token usage,
@@ -135,20 +176,39 @@ The optional Luna/max semantic judge is shadow-only and cannot alter scores or
 routing. Its fresh protocol-3.1 pilot completed but failed the shadow acceptance
 gate, so deterministic scoring remained unchanged.
 
-The July 12 screen completed all 238 seeded cells. Human review found pervasive
-lexical and field-placement false negatives plus a root-orchestration terminal
-classification anomaly. Preserve the run as harness-calibration evidence; its
-raw 152-pass/86-gate-failure split does not support a model ranking or routing
-change.
+The July 15 V2 screen completed all 238 seeded cells: 63 passed, 96 gate failed,
+65 quality failed, 12 scoring indeterminate, and two timed out. Independent
+case-level review plus diff review of the 121 failures found 84 grader false
+negatives and 37 genuine model failures. Suite `1.7.0` implements those audited corrections and
+preserves all prior passes and genuine failures. Its additive regrade covers
+221 compatible cases: 170 passed, 11 gate failed, 26 quality failed, 12 remain
+indeterminate, and two remain source timeouts. Only 17 changed Project Builder
+cases were excluded; their corrected fresh retest passed 17/17. The two prior
+Luna Web Builder timeout cells also passed 2/2, producing composite evidence of
+189 passed, 11 gate failed, 26 quality failed, 12 indeterminate, and zero
+timeouts. The 12 root-orchestration
+indeterminate cells remain a CLI telemetry limitation rather than model
+failures. The completed case audit does not replace blinded finalist review or
+the three-fixture routing gate.
 
-Suite `1.5.0` implements the corrective boundary: explicit semantic
-alternatives search logical output fields, terminal status distinguishes hard
-gates, incomplete scoring, and quality failures, and the two ceiling-effect
-builders are replaced by V2 cursor-pagination and dependency-DAG fixtures. An
-additive offline regrade covered 204 compatible cases and excluded the 34
-changed builder cases. It recovered 31 semantic credits and rejected one old
-keyword-only credit without rewriting the frozen source run. A fresh V2 screen
-and human review are still required before ranking or routing decisions.
+Suite 3.1 replaces the remaining Infra Planner and Risk Reviewer ceilings and
+adds offline repeat analysis with Wilson intervals. The July 16 Builder/Scout
+repeat lane produced 36 pass, eight quality failure, and five gate failure in
+49 calls. Sol/low is the leading challenger for both roles, but same-fixture
+repeats did not satisfy the distinct-fixture routing gate, so that campaign
+left active routing unchanged. See
+`evals/role-model-matrix/V3-MULTIFIXTURE-REPEAT-RESULTS-2026-07-16.md`.
+
+The final Builder/Scout expansion completed exactly 24 held-out calls on four
+new fixtures with no operational failure. Across three distinct fixtures,
+Builder Sol/high is 11/11 on hard gates versus Sol/low 10/11, including one
+genuine low-effort autosave transport-aliasing failure. Scout Sol/low is 11/11
+on hard gates and 9/11 at full quality versus Terra/medium 8/11 and 2/11.
+Builder remained on Sol/high in that campaign. The separate human routing gate
+approved Scout Sol/low, and that route was applied at the time. The later
+explicit standing matrix supersedes that routing decision without rewriting
+its result. See
+`evals/role-model-matrix/FINAL-BUILDER-SCOUT-ROUTING-RESULTS-2026-07-16.md`.
 
 A separate public lane under `evals/public-benchmarks/terminal-bench-2/`
 completed 85 comparable Terminal-Bench 2 cells: all 17 configurations on five
@@ -160,8 +220,8 @@ insufficient for a general ranking; see `RESULTS-2026-07-12.md`.
 ## Installed Skills and Local Extensions
 
 The public package owns reusable skill templates and validation guidance. The
-workstation can also have local skills under `~/.codex/skills`, `~/.agents/skills`,
-and `/mnt/c/docs/skills`.
+workstation can also have local skills under `~/.codex/skills`,
+`~/.agents/skills`, and an optional operator-configured shared skill root.
 
 Publicly reusable skill categories:
 
@@ -175,15 +235,16 @@ Project-specific deploy skills are local extensions. Keep exact hostnames,
 private paths, SSH command allow-lists, credential locations, and customer facts
 in the project docs or ignored private notes.
 
-Validation status as of 2026-07-13:
+Historical validation status as of 2026-08-30 (retained for the evaluation
+harness and previous routing; it does not prove the current matrix):
 
 - the GPT-5.6 agent TOMLs parse, all configured model/effort pairs exist in the
   current local Codex catalog, and migration smoke calls succeeded before the
   current usage-limit stop;
 - the role-model evaluation manifest resolves 14 calibration controls and the
   completed 238-cell screen;
-- suite `1.5.0` / harness `1.4.0` passes 76 tests across 13 files, static
-  manifest validation, semantic
+- default suite `3.1.0`, finalist manifests `3.2.0`, and harness `1.8.0` pass
+  166 tests across 22 files, static manifest validation, semantic
   calibration controls, builder seed/gold controls, and terminal-classification
   regression checks;
 - calibration v6 completed 14/14 controls and its human review plus current
@@ -191,18 +252,50 @@ Validation status as of 2026-07-13:
 - the host-side Terminal-Bench bridge passes 17 tests, and the five-task public
   screen has 85 terminal scored results with clean post-run lifecycle checks;
 - installed skill frontmatter validates across the local skill roots;
+- installed and canonical `local-goal-loop` copies were aligned for that
+  release; its JSON/YAML metadata and behavior/trigger eval files validated.
+  The later configuration narrows STAGED/CONTROLLED delegation to a selective,
+  root-owned decision;
+- npm fixture discovery supports both prefix-local and distro package layouts;
+  155 evaluation tests outside the nested-namespace lane and every fixture,
+  routing, and notes synchronizer test pass. The current execution profile
+  rejects Bubblewrap user-namespace creation, so the full isolation lane is
+  unavailable rather than bypassed;
+- local Codex session records expose structured child and skill evidence, but
+  analytics may omit those events; absence from analytics is not proof of
+  non-use;
+- the latest project routing check covers 38 roots with zero missing configs,
+  zero agent drift, and zero project shadows; the previously outstanding
+  `marketing` and `research-skill` folders now have the standard thread config;
 - a deploy-skill YAML warning caused by a list-valued `description` was fixed by
   making the `description` field a scalar string;
 - `README.md`, `HANDOFF.md`, `MEMORY.md`, `NOTES.md`, and this file should be
   updated together when the operating model changes.
 
+For the September configuration migration, minimal authenticated access checks
+succeeded for `gpt-6-astra`, `gpt-5.6-sol`, and `gpt-5.6-luna`. Role dispatch,
+fallback, profile, concurrency, recursion, per-surface permission, and
+preservation results belong in the private migration record. Until those
+checks are recorded, treat those behaviors as pending runtime validation rather
+than extending the three model-access results.
+
 ## Policy Boundary Lessons
 
-- Avoid reusable catch-all SSH prompt rules when local exact deploy allow-lists
-  are used; most-restrictive matching can turn an exact allow into a prompt.
-- If a command is allowed by `codex execpolicy check` but still rejected by the
-  tool runner, treat it as a session/launcher approval boundary and stop for a
-  correct approval-capable session or documented runner.
+- Global and managed project command rules contain no broad `prompt` decisions.
+  SSH, file transfer, privilege, service, package, Docker, firewall, and IaC
+  work proceeds when the objective includes it and the owning workflow's target
+  and recovery checks pass.
+- Fresh root and child sessions must resolve `danger-full-access` with approval
+  policy `never`. App and configured MCP tool policies use supported automatic
+  approval settings. External credentials, MFA, provider confirmation, and
+  disconnected accounts remain technical blockers rather than local prompts.
+- Historical 0.153.4 checks used a full-bypass wrapper. The September 12
+  installation uses the official standalone command and preserves existing
+  permission configuration. This maintenance does not rerun destructive probes
+  or claim that configuration alone proves every tool's approval behavior.
+- The separate machine-wide Browser configuration uses `never_ask` for origin,
+  history, download, upload, and CDP access with wildcard allow lists, so an
+  unlisted project origin does not create another permission prompt.
 
 ## Current Public Release Tasks
 

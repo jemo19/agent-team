@@ -1,0 +1,4 @@
+interface:
+  display_name: "Web Project Delivery"
+  short_description: "Deliver focused local web application changes"
+  default_prompt: "Use $web-project-delivery to implement and verify this local web application change."

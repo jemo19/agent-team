@@ -1,0 +1,16 @@
+{
+  "skill": "infrastructure-as-code-ops",
+  "method": "Static trigger-boundary review; runtime selection is recorded separately when available.",
+  "cases": [
+    {"id": "T1", "prompt": "Review the saved Terraform plan for our staging DNS stack and tell me whether it is safe to apply.", "should_trigger": true},
+    {"id": "T2", "prompt": "Implement a bounded Terraform tag change in this module, validate it locally, and do not apply it.", "should_trigger": true},
+    {"id": "T3", "prompt": "Investigate why this OpenTofu stack shows drift from its managed resources.", "should_trigger": true},
+    {"id": "T4", "prompt": "Plan how to import this existing resource into the declared Terraform address without changing infrastructure.", "should_trigger": true},
+    {"id": "T5", "prompt": "Review this proposed terraform state mv procedure, including backup and recovery.", "should_trigger": true},
+    {"id": "T6", "prompt": "Restart nginx on the managed Linux server and verify its health.", "should_trigger": false},
+    {"id": "T7", "prompt": "Debug this TypeScript API handler.", "should_trigger": false},
+    {"id": "T8", "prompt": "Explain what Terraform is at a high level.", "should_trigger": false},
+    {"id": "T9", "prompt": "Edit Docker Compose directly on the server and restart the container.", "should_trigger": false},
+    {"id": "T10", "prompt": "Discuss a general multi-cloud architecture; there is no IaC repository or artifact yet.", "should_trigger": false}
+  ]
+}

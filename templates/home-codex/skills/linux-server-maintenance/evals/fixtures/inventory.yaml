@@ -1,0 +1,28 @@
+# Synthetic local-only fixture. These are not real servers or addresses.
+servers:
+  - id: fixture-canary-01
+    environment: lab
+    role: web
+    os: Linux
+    access:
+      method: simulated-ssh
+    management_source: fixture-repo/contracts/web
+    critical_services: [fixture-web]
+    maintenance_constraints: one-host-at-a-time
+    backups:
+      method: fixture-snapshot
+      restore_proven: true
+    monitoring: fixture-health
+  - id: fixture-worker-02
+    environment: lab
+    role: web
+    os: Linux
+    access:
+      method: simulated-ssh
+    management_source: fixture-repo/contracts/web
+    critical_services: [fixture-web]
+    maintenance_constraints: one-host-at-a-time
+    backups:
+      method: fixture-snapshot
+      restore_proven: true
+    monitoring: fixture-health

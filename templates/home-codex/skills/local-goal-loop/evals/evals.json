@@ -1,0 +1,69 @@
+{
+  "skill_name": "local-goal-loop",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "$local-goal-loop Change one documented timeout constant from 20 to 30 and run its one known unit test.",
+      "expected_output": "Select DIRECT, say the heavy loop is unnecessary, make no skill-specific ledger, use no subagent, and report the targeted check.",
+      "files": [],
+      "expectations": [
+        "DIRECT mode",
+        "No subagent",
+        "No persistent ledger",
+        "One deterministic check"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "$local-goal-loop Add CSV export across an API endpoint and UI page. First map the relevant files and tests, then implement and verify without touching unrelated modules.",
+      "expected_output": "Select STAGED when useful, define failable gates, optionally route bounded UI/API flow mapping to Sol-medium web_scout and test inventory to Luna-medium test_mapper without another permission prompt. Use the named Sol-medium builder when implementation judgment remains. Root Astra-medium owns ordinary integration; INVOKE and REVIEW are justified, not mandatory.",
+      "files": [],
+      "expectations": [
+        "Proportionate STAGED mode",
+        "Failable pass conditions",
+        "Exact named roles",
+        "No repeat delegation permission",
+        "Astra-medium root ordinary integration"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "$local-goal-loop Coordinate a multi-session production data migration. The first verification fails, one evidence-based repair also fails, and then the credentials service becomes unavailable. Continue until complete.",
+      "expected_output": "Select CONTROLLED and use one repository-conventional ledger. Use a supported Astra-high root path for consequential planning/acceptance, optionally route bounded specialist analysis to Astra-high. Honor one evidence-based repair per configuration and at most two upward promotions, then stop as BLOCKED_EXTERNAL on credential outage without further reasoning escalation.",
+      "files": [],
+      "expectations": [
+        "CONTROLLED mode",
+        "Configured role and effort routing without repeat permission",
+        "One compact ledger",
+        "At most one targeted repair",
+        "BLOCKED_EXTERNAL stop",
+        "No permission expansion"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "$local-goal-loop Continue a staged task that already has an active native Codex goal and plan, but the repository also requires its own goal file.",
+      "expected_output": "Treat the active native goal and plan as sources of truth, follow the repository's required file convention, and avoid creating a competing skill ledger or plan.",
+      "files": [],
+      "expectations": [
+        "Native goal is not duplicated",
+        "Native plan is reused",
+        "Repository convention is honored",
+        "No parallel ledger"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "$local-goal-loop Use CONTROLLED mode for a consequential broad repository change needing independent ownership mapping, architecture, mechanical implementation, and cold correctness review.",
+      "expected_output": "Select an actual supported Astra-high root path for consequential reasoning/acceptance; baseline for ordinary unrelated work stays Astra-medium. When independent delegation is justified, use Luna-medium explorer, Astra-high project_architect, Sol-low worker after READY, and Sol-high project_reviewer or Astra-high consequential review variant. Use bounded packets, preserve role pins and ownership, collect native model/effort evidence, no recursive delegation.",
+      "files": [],
+      "expectations": [
+        "Selective role routing",
+        "Exact configured models/efforts",
+        "Actual high root selection for consequential work",
+        "No recursive children",
+        "Root owns final verification"
+      ]
+    }
+  ]
+}
